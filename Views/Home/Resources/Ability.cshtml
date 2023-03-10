@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PathfinderToolkit.Models.Resources.Ability>
+
+<form method="post">
+    <select id="abilityDropdown" name="abilityDropdown">
+        <option value="">Select an ability</option>
+        @foreach (var ability in ViewBag.Abilities)
+        {
+            <option value="@ability.Value">@ability.Text</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+@if (Model != null)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Source</th>
+                <th>Page</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ability in Model)
+            {
+                <tr>
+                    <td>@ability.name</td>
+                    <td>@ability.source</td>
+                    <td>@ability.page</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -259,16 +259,6 @@ public class Resources
         }
     }
 
-    public void ButtonTest()
-    {
-        Debug.WriteLine("Button Test.");
-        Console.WriteLine("Button Test.");
-    }
-
-/*        public IList<Ability>? ability { get; set; }
-    public IList<Test>? tests { get; set; }
-    public IList<Bestiary>? bestiary { get; set; }
-*/
 
     public class Ability
     {
