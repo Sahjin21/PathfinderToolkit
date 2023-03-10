@@ -1,0 +1,30 @@
+﻿@model PathfinderToolkit.Models.Resources.Test[]
+
+<h1>Test List</h1>
+
+@if (Model != null && Model.Length > 0)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Page</th>
+                <th>Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var test in Model)
+            {
+                <tr>
+                    <td>@test.Name</td>
+                    <td>@test.Page</td>
+                    <td>@test.Level</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No data available.</p>
+}
