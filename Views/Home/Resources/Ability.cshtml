@@ -1,9 +1,9 @@
-﻿@model IEnumerable<PathfinderToolkit.Models.Resources.Ability>
+﻿@model PathfinderToolkit.Models.Resources.Ability
 
 <form method="post">
     <select id="abilityDropdown" name="abilityDropdown">
         <option value="">Select an ability</option>
-        @foreach (var ability in ViewBag.Abilities)
+        @foreach (var ability in ViewBag.Abilities ?? Enumerable.Empty<SelectListItem>())
         {
             <option value="@ability.Value">@ability.Text</option>
         }
@@ -22,14 +22,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var ability in Model)
-            {
-                <tr>
-                    <td>@ability.name</td>
-                    <td>@ability.source</td>
-                    <td>@ability.page</td>
-                </tr>
-            }
+            <tr>
+                <td>@Model.name</td>
+                <td>@Model.source</td>
+                <td>@Model.page</td>
+            </tr>
         </tbody>
     </table>
 }
