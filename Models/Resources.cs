@@ -4,6 +4,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 //using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace PathfinderToolkit.Models;
@@ -309,30 +310,6 @@ public class Resources
 
     public class Bestiary
     {
-        [JsonPropertyName("name")]
-        public string name { get; set; }
-
-        public class _0
-        {
-            public int level { get; set; }
-            public List<Spell> spells { get; set; }
-        }
-
-        public class _1
-        {
-            public List<Spell> spells { get; set; }
-        }
-
-        public class _2
-        {
-            public List<Spell> spells { get; set; }
-        }
-
-        public class _3
-        {
-            public List<Spell> spells { get; set; }
-        }
-
         public class Abilities
         {
             public List<Mid> mid { get; set; }
@@ -354,13 +331,13 @@ public class Resources
         {
             public int std { get; set; }
 
-            [JsonPropertyName("with shield raised")]
+            [JsonProperty("with shield raised")]
             public int? withshieldraised { get; set; }
 
-            [JsonPropertyName("while withdrawn into its shell")]
+            [JsonProperty("while withdrawn into its shell")]
             public int? whilewithdrawnintoitsshell { get; set; }
 
-            [JsonPropertyName("with mage armor")]
+            [JsonProperty("with mage armor")]
             public int? withmagearmor { get; set; }
         }
 
@@ -373,6 +350,7 @@ public class Resources
         {
             public int number { get; set; }
             public string unit { get; set; }
+            public string entry { get; set; }
         }
 
         public class Arcana
@@ -384,8 +362,11 @@ public class Resources
         {
             public int std { get; set; }
 
-            [JsonPropertyName("to Climb in true or spider form")]
+            [JsonProperty("to Climb in true or spider form")]
             public int? toClimbintrueorspiderform { get; set; }
+
+            [JsonProperty("to Climb")]
+            public int? toClimb { get; set; }
         }
 
         public class Attack
@@ -417,16 +398,6 @@ public class Resources
             public Frequency frequency { get; set; }
         }
 
-        public class BreachillLore
-        {
-            public int std { get; set; }
-        }
-
-        public class Crafting
-        {
-            public int std { get; set; }
-            public int weaving { get; set; }
-        }
 
         public class Creature
         {
@@ -448,6 +419,16 @@ public class Resources
             public List<Spellcasting> spellcasting { get; set; }
             public List<Sense> senses { get; set; }
             public List<Ritual> rituals { get; set; }
+
+            internal static object ToArray()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal static object ToList()
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public class Deception
@@ -462,31 +443,12 @@ public class Resources
             public List<Hp> hp { get; set; }
             public List<string> immunities { get; set; }
             public List<Resistance> resistances { get; set; }
+            public List<Weakness> weaknesses { get; set; }
         }
 
         public class Diplomacy
         {
             public int std { get; set; }
-        }
-
-        public class DragonLore
-        {
-            public int std { get; set; }
-        }
-
-        public class Entry
-        {
-            [JsonPropertyName("0")]
-            public _0 _0 { get; set; }
-
-            [JsonPropertyName("1")]
-            public _1 _1 { get; set; }
-
-            [JsonPropertyName("2")]
-            public _2 _2 { get; set; }
-
-            [JsonPropertyName("3")]
-            public _3 _3 { get; set; }
         }
 
         public class Fort
@@ -506,11 +468,6 @@ public class Resources
             public string add_hash { get; set; }
         }
 
-        public class GoblinLore
-        {
-            public int std { get; set; }
-        }
-
         public class Hp
         {
             public int hp { get; set; }
@@ -525,21 +482,7 @@ public class Resources
         public class Languages
         {
             public List<string> languages { get; set; }
-        }
-
-        public class LibraryLore
-        {
-            public int std { get; set; }
-        }
-
-        public class Medicine
-        {
-            public int std { get; set; }
-        }
-
-        public class MercantileLore
-        {
-            public int std { get; set; }
+            public List<string> abilities { get; set; }
         }
 
         public class Mid
@@ -552,6 +495,7 @@ public class Resources
             public string trigger { get; set; }
         }
 
+
         public class Nature
         {
             public int std { get; set; }
@@ -563,6 +507,11 @@ public class Resources
         }
 
         public class Perception
+        {
+            public int std { get; set; }
+        }
+
+        public class Performance
         {
             public int std { get; set; }
         }
@@ -580,6 +529,7 @@ public class Resources
         public class Resistance
         {
             public string name { get; set; }
+            public int? amount { get; set; }
         }
 
         public class Ritual
@@ -615,7 +565,6 @@ public class Resources
             public Intimidation intimidation { get; set; }
             public Religion religion { get; set; }
             public Society society { get; set; }
-            public Crafting crafting { get; set; }
             public Deception deception { get; set; }
             public Diplomacy diplomacy { get; set; }
             public Nature nature { get; set; }
@@ -624,23 +573,9 @@ public class Resources
             public Stealth stealth { get; set; }
             public Thievery thievery { get; set; }
 
-            [JsonPropertyName("breachill lore")]
-            public BreachillLore breachilllore { get; set; }
-
-            [JsonPropertyName("mercantile lore")]
-            public MercantileLore mercantilelore { get; set; }
-
-            [JsonPropertyName("dragon lore")]
-            public DragonLore dragonlore { get; set; }
-            public Medicine medicine { get; set; }
             public Occultism occultism { get; set; }
             public Arcana arcana { get; set; }
 
-            [JsonPropertyName("library lore")]
-            public LibraryLore librarylore { get; set; }
-
-            [JsonPropertyName("goblin lore")]
-            public GoblinLore goblinlore { get; set; }
         }
 
         public class Society
@@ -655,13 +590,6 @@ public class Resources
             public int? fly { get; set; }
             public int? swim { get; set; }
         }
-
-        public class Spell
-        {
-            public string name { get; set; }
-            public int? amount { get; set; }
-        }
-
         public class Spellcasting
         {
             public string name { get; set; }
@@ -669,7 +597,7 @@ public class Resources
             public string tradition { get; set; }
             public int DC { get; set; }
             public int attack { get; set; }
-            public Entry entry { get; set; }
+            public object entry { get; set; }
             public int? fp { get; set; }
         }
 
@@ -683,6 +611,9 @@ public class Resources
         public class Stealth
         {
             public int std { get; set; }
+
+            [JsonProperty("in forests")]
+            public int? inforests { get; set; }
         }
 
         public class Survival
@@ -702,15 +633,17 @@ public class Resources
             public List<string> traits { get; set; }
             public Activity activity { get; set; }
             public string trigger { get; set; }
-            //public override string ToString() => JsonSerializer.Serialize<Bestiary.Top>(this);
         }
 
+        public class Weakness
+        {
+            public int amount { get; set; }
+            public string name { get; set; }
+        }
         public class Will
         {
             public int std { get; set; }
-            //public override string ToString() => JsonSerializer.Serialize<Bestiary.Will>(this);
         }
-        //public override string ToString() => JsonSerializer.Serialize<Bestiary>(this);
 
     }
 

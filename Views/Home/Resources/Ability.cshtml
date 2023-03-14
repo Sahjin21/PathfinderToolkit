@@ -19,6 +19,10 @@
                 <th>Name</th>
                 <th>Source</th>
                 <th>Page</th>
+                <th>Traits</th>
+                <th>Trigger</th>
+                <th>Requirements</th>
+                <th>Entries</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +30,13 @@
                 <td>@Model.name</td>
                 <td>@Model.source</td>
                 <td>@Model.page</td>
+                @*This works for a list of strings*@
+                <td>@Html.Raw(string.Join("<br>", (Model.traits ?? Enumerable.Empty<string>()).Select(e => e.ToString())))</td>
+                @*This works for a string which may be null*@
+                <td>@(Model.trigger ?? "")</td>
+                <td>@(Model.requirements ?? "")</td>
+                @*This works for a list of objects*@
+                <td>@Html.Raw(string.Join("<br>", Model.entries.Select(e => e.ToString())))</td>
             </tr>
         </tbody>
     </table>

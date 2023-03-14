@@ -1,0 +1,31 @@
+﻿@model PathfinderToolkit.Models.Resources.Bestiary.Creature
+
+<form method="post">
+    <select id="creatureDropdown" name="creatureDropdown">
+        <option value="">Select an NPC</option>
+        @foreach (var creature in ViewBag.Creature ?? Enumerable.Empty<SelectListItem>())
+        {
+            <option value="@creature.Value">@creature.Text</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+@if (Model != null)
+{
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.name</td>
+
+
+                </tr>
+            </tbody>
+        </table>
+}

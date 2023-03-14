@@ -21,6 +21,14 @@ namespace PathfinderToolkit.Controllers
         {
             return View();
         }
+        public IActionResult GM()
+        {
+            return View();
+        }
+        public IActionResult Player()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
