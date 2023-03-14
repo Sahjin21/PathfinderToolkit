@@ -1,0 +1,51 @@
+﻿@model Resources.Creature.BestiaryViewModel
+
+<form method="get" action="@Url.Action("Bestiary", "Resources")">
+    <select id="ageOfAshesDropdown" name="ageOfAshesDropdown">
+        <option value="">Age Of Ashes</option>
+        @foreach (var creature in ViewBag.ageOfAshesCreature ?? Enumerable.Empty<SelectListItem>())
+        {
+            <option value="@creature.Value">@creature.Text</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+    <select id="abominationVaultsDropdown" name="abominationVaultsDropdown">
+        <option value="">Abomination Vaults</option>
+        @foreach (var creature in ViewBag.abominationVaultsCreature ?? Enumerable.Empty<SelectListItem>())
+        {
+            <option value="@creature.Value">@creature.Text</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+
+
+@if (Model != null)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Perception</th>
+                <th>Traits</th>
+                <th>Abilities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.AgeOfAshesCreature?.name</td>
+                <td>@Model.AgeOfAshesCreature?.level</td>
+                <td>@(Model.AgeOfAshesCreature?.perception != null ? Model.AgeOfAshesCreature.perception.std.ToString() : "")</td>
+                <td>@Html.Raw(string.Join("<br>", (Model.AgeOfAshesCreature?.traits ?? Enumerable.Empty<string>()).Select(e => e.ToString())))</td>
+
+                <td>
+                    @if (Model.AgeOfAshesCreature?.abilities != null && Model.AgeOfAshesCreature.abilities.bot != null)
+    {
+                        @Html.Raw(string.Join("<br>", Model.AgeOfAshesCreature?.abilities.bot.Select(e => e.name)))
+    }</td>
+                </tr>
+        </tbody>
+    </table>
+}

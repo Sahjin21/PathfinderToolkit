@@ -6,6 +6,10 @@ using System.Linq;
 using System.Text.Json;
 using static PathfinderToolkit.Models.Resources;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using static PathfinderToolkit.Models.Resources.Bestiary;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using static PathfinderToolkit.Models.Resources.Creature;
 
 namespace PathfinderToolkit.Controllers
 {
@@ -36,24 +40,52 @@ namespace PathfinderToolkit.Controllers
         {
             string jsonFilePath = "wwwroot/Data/Json PF/abilities.json";
             string jsonString = System.IO.File.ReadAllText(jsonFilePath);
-
             var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Ability>>>(jsonString);
             var abilityList = json["ability"].ToArray();
-
             ViewBag.Abilities = abilityList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
-
             var selectedAbility = abilityList.FirstOrDefault(a => a.name == abilityDropdown);
-
             return View("~/Views/Home/Resources/Ability.cshtml", selectedAbility);
+        }
+
+        public IActionResult DiceRoller()
+        {
+            return View("~/Views/Home/Resources/DiceRoller.cshtml");
+        }
+
+        public IActionResult Bestiary(string ageOfAshesDropdown, string abominationVaultsDropdown)
+        {
+            try
+            {
+                string ageOfAshesFilePath = "wwwroot/Data/Json PF/bestiary/AgeOfAshes.json";
+                string ageOfAshesString = System.IO.File.ReadAllText(ageOfAshesFilePath);
+                var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(ageOfAshesString);
+                var ageOfAshesList = json["creature"].ToArray();
+                ViewBag.ageOfAshesCreature = ageOfAshesList.Select(a => new SelectListItem { Text = a.name + "(" + a.level + ")", Value = a.name}).ToList();
+                var ageOfAshesCreature = ageOfAshesList.FirstOrDefault(a => a.name == ageOfAshesDropdown);
+
+                string abominationVaultsFilePath = "wwwroot/Data/Json PF/bestiary/AbominationVaults.json";
+                string abominationVaultsString = System.IO.File.ReadAllText(ageOfAshesFilePath);
+                var abominationVaultsJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(abominationVaultsString);
+                var abominationVaultsList = json["creature"].ToArray();
+                ViewBag.ageOfAshesCreature = abominationVaultsList.Select(a => new SelectListItem { Text = a.name + "(" + a.level + ")", Value = a.name }).ToList();
+                var abominationVaultsCreature = abominationVaultsList.FirstOrDefault(a => a.name == abominationVaultsDropdown);
+
+                // create an instance of BestiaryViewModel
+                var viewModel = new BestiaryViewModel();
+
+                // populate its properties with the necessary data
+                viewModel.AgeOfAshesCreature = ageOfAshesCreature;
+                viewModel.AbominationVaultsCreature = abominationVaultsCreature;
+                return View("~/Views/Home/Resources/Bestiary.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return View("~/Views/Shared/Error.cshtml"); 
+            }
         }
         public IActionResult Index()
         {
-            /*string jsonFilePath = "wwwroot/Data/Json PF/test.json";
-            string jsonString = System.IO.File.ReadAllText(jsonFilePath);
-
-            var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Test>>>(jsonString);
-            var testList = json["test"].ToArray();
-            return View(testList);    */ 
             return View();
         }
     }
