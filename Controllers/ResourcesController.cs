@@ -81,7 +81,11 @@ namespace PathfinderToolkit.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+<<<<<<< HEAD
                 return View("~/Views/Shared/Error.cshtml"); 
+=======
+                return View("~/Views/Home/Resources/Bestiary.cshtml");
+>>>>>>> 144ae53cb85ecc4cff02989a550f7109258c4a20
             }
         }
         public IActionResult Index()
