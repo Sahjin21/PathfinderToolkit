@@ -13,31 +13,39 @@
 
 @if (Model != null)
 {
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Source</th>
-                <th>Page</th>
-                <th>Traits</th>
-                <th>Trigger</th>
-                <th>Requirements</th>
-                <th>Entries</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@Model.name</td>
-                <td>@Model.source</td>
-                <td>@Model.page</td>
-                @*This works for a list of strings*@
-                <td>@Html.Raw(string.Join("<br>", (Model.traits ?? Enumerable.Empty<string>()).Select(e => e.ToString())))</td>
-                @*This works for a string which may be null*@
-                <td>@(Model.trigger ?? "")</td>
-                <td>@(Model.requirements ?? "")</td>
-                @*This works for a list of objects*@
-                <td>@Html.Raw(string.Join("<br>", Model.entries.Select(e => e.ToString())))</td>
-            </tr>
-        </tbody>
-    </table>
+    
+    <div class="ability-table">
+        <div class="ability-container ability-name">
+            <div class="ability-header">Name</div>
+            <div class="ability-content .ability-name">@Model.name</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Source</div>
+            <div class="ability-content">@Model.source</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Page</div>
+            <div class="ability-content">@Model.page</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Traits</div>
+            @*This works for a list of strings*@
+            <div class="ability-content">@Html.Raw(string.Join("<br>", (Model.traits ?? Enumerable.Empty<string>()).Select(e => e.ToString())))</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Trigger</div>
+            @*This works for a string which may be null*@
+            <div class="ability-content">@(Model.trigger ?? "")</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Requirements</div>
+            <div class="ability-content">@(Model.requirements ?? "")</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Entries</div>
+            @*This works for a list of objects*@
+            <div class="ability-content">@Html.Raw(string.Join("<br>", Model.entries.Select(e => e.ToString())))</div>
+        </div>
+    </div>
+     
 }

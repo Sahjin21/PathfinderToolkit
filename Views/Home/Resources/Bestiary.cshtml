@@ -1,6 +1,116 @@
 ﻿@model Resources.Creature.BestiaryViewModel
 
-<form method="get" action="@Url.Action("Bestiary", "Resources")">
+@{
+    ViewData["Title"] = "Bestiary";
+}
+
+<h1>Bestiary</h1>
+
+
+
+@if (Model != null && Model.BookDropdown != null && Model.BookDropdown.Any())
+{
+    <form id="bookForm" method="post">
+        <label for="bookList">Select a book:</label>
+        <ol id="bookList">
+            @foreach (var bookOption in Model.BookDropdown)
+            {
+                <li><a href="#" onclick="selectBook('@bookOption.Value')">@bookOption.Text</a></li>
+            }
+        </ol>
+        <input type="hidden" name="SelectedBook" id="selectedBook" value="@Model.SelectedBook" />
+    </form>
+}
+else
+{
+    <p>No books found.</p>
+}
+
+@section Scripts{
+    <script>
+        function selectBook(bookUrl) {
+            $("#selectedBook").val(bookUrl);
+            $("#bookForm").submit();
+        }
+    </script>
+}
+@*@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#bookForm").submit(function (event) {
+                event.preventDefault();
+                var selectedBook = $("#bookDropdown").val();
+                var jsonUrl = "@Url.Action("Bestiary", "Resources")";
+
+                $.ajax({
+                    url: jsonUrl,
+                    data: { "bookName": selectedBook },
+                    type: "GET",
+                    success: function (data) {
+                        var rows = "";
+
+                        $.each(data, function (index, monster) {
+                            rows += "<tr>";
+                            rows += "<td>" + monster.Name + "</td>";
+                            rows += "</tr>";
+                        });
+
+                        $("#bestiaryTable tbody").html(rows);
+                    }
+                });
+            });
+        });
+    </script>
+}*@
+
+
+
+@*@model Resources.Creature.BestiaryViewModel
+
+@{
+    ViewData["Title"] = "Bestiary";
+}
+
+
+<h1>Bestiary</h1>
+
+<form method="post">
+    @if (Model != null)
+    {
+        <label for="bookDropdown">Select a book:</label>
+        <select id="bookDropdown" name="SelectedBook">
+            @foreach (var bookOption in Model.BookDropdown)
+            {
+                <option value="@bookOption.Value">@bookOption.Text</option>
+            }
+    </select>
+        <button type="submit">Submit</button>
+    }
+</form>*@
+
+
+
+
+
+@Html.Partial("~/Views/Home/Resources/_Creatures.cshtml", Model)
+
+
+
+
+@*@if (Model.Creatures != null && Model.Creatures.Any())
+{
+<ul>
+    @foreach (var creature in Model.Creatures)
+    {
+        <li>@creature.name</li>
+    }
+</ul>
+}
+else
+{
+    <p>No creatures found.</p>*@
+
+@*<form method="get" action="@Url.Action("Bestiary", "Resources")">
     <select id="ageOfAshesDropdown" name="ageOfAshesDropdown">
         <option value="">Age Of Ashes</option>
         @foreach (var creature in ViewBag.ageOfAshesCreature ?? Enumerable.Empty<SelectListItem>())
@@ -17,11 +127,14 @@
         }
     </select>
     <button type="submit">Submit</button>
-</form>
 
 
 
-@if (Model != null)
+
+</form>*@
+
+
+@*@if (Model != null)
 {
     <table>
         <thead>
@@ -48,4 +161,4 @@
                 </tr>
         </tbody>
     </table>
-}
+}*@

@@ -1,15 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PathfinderToolkit.Models;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Text.Json;
 using static PathfinderToolkit.Models.Resources;
+using static PathfinderToolkit.Models.JsonReader;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using static PathfinderToolkit.Models.Resources.Bestiary;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using static PathfinderToolkit.Models.Resources.Creature;
+using static PathfinderToolkit.Models.Resources.Creature.BestiaryViewModel;
+using Newtonsoft.Json.Linq;
+using static System.Formats.Asn1.AsnWriter;
+using System.Runtime.Intrinsics.X86;
+using System.Xml.Linq;
+using System;
+
+
 
 namespace PathfinderToolkit.Controllers
 {
@@ -51,39 +60,51 @@ namespace PathfinderToolkit.Controllers
         {
             return View("~/Views/Home/Resources/DiceRoller.cshtml");
         }
+        [HttpGet]
+       public IActionResult Bestiary()
+        {
+            var model = new BestiaryViewModel();
 
-        public IActionResult Bestiary(string ageOfAshesDropdown, string abominationVaultsDropdown)
+            // Populate book dropdown
+            var bookFiles = Directory.GetFiles("wwwroot/Data/Json PF/bestiary/", "*.json");
+
+            model.BookDropdown = new List<SelectListItem>();
+            foreach (var bookFile in bookFiles)
+            {
+                var bookName = Path.GetFileNameWithoutExtension(bookFile);
+                model.BookDropdown.Add(new SelectListItem { Value = bookName, Text = bookName });
+            }
+
+            return View("~/Views/Home/Resources/Bestiary.cshtml", model);
+        }
+
+
+        [HttpPost]
+        public IActionResult Bestiary(BestiaryViewModel model, string creatureDropdown)
         {
             try
             {
-                string ageOfAshesFilePath = "wwwroot/Data/Json PF/bestiary/AgeOfAshes.json";
-                string ageOfAshesString = System.IO.File.ReadAllText(ageOfAshesFilePath);
-                var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(ageOfAshesString);
-                var ageOfAshesList = json["creature"].ToArray();
-                ViewBag.ageOfAshesCreature = ageOfAshesList.Select(a => new SelectListItem { Text = a.name + "(" + a.level + ")", Value = a.name}).ToList();
-                var ageOfAshesCreature = ageOfAshesList.FirstOrDefault(a => a.name == ageOfAshesDropdown);
-
-                string abominationVaultsFilePath = "wwwroot/Data/Json PF/bestiary/AbominationVaults.json";
-                string abominationVaultsString = System.IO.File.ReadAllText(ageOfAshesFilePath);
-                var abominationVaultsJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(abominationVaultsString);
-                var abominationVaultsList = json["creature"].ToArray();
-                ViewBag.ageOfAshesCreature = abominationVaultsList.Select(a => new SelectListItem { Text = a.name + "(" + a.level + ")", Value = a.name }).ToList();
-                var abominationVaultsCreature = abominationVaultsList.FirstOrDefault(a => a.name == abominationVaultsDropdown);
-
-                // create an instance of BestiaryViewModel
-                var viewModel = new BestiaryViewModel();
-
-                // populate its properties with the necessary data
-                viewModel.AgeOfAshesCreature = ageOfAshesCreature;
-                viewModel.AbominationVaultsCreature = abominationVaultsCreature;
-                return View("~/Views/Home/Resources/Bestiary.cshtml", viewModel);
+                if (ModelState.IsValid)
+                {
+                    model.SelectedBook = Request.Form["SelectedBook"];
+                    var creaturesJson = System.IO.File.ReadAllText($"wwwroot/Data/Json PF/bestiary/{model.SelectedBook}.json");
+                    model.Creatures = JsonConvert.DeserializeObject<List<Resources.Creature>>(creaturesJson);
+                    var creatureList = model.Creatures.ToArray();
+                    ViewBag.Creatures = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+                    var selectedCreature = creatureList.FirstOrDefault(a => a.name == creatureDropdown);
+                }
+                return View("~/Views/Home/Resources/Bestiary.cshtml", model);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return View("~/Views/Shared/Error.cshtml"); 
+                return View("~/Views/Shared/Error.cshtml", model);
             }
         }
+
+
+
+
         public IActionResult Index()
         {
             return View();

@@ -1,0 +1,24 @@
+﻿@model Resources.Creature.BestiaryViewModel
+<h1>Creatures List</h1>
+
+<h1>@Model.SelectedBook</h1>
+
+
+@*
+@if (Model != null && Model.Creatures.Any())
+{
+        <form id="creatureForm" method="post">
+            <label for="creatureList">Select a creature:</label>
+            <select id="creatureList" name="SelectedCreature">
+            @foreach (var creatureOption in ViewBag.Creatures)
+            {
+                        <option value="@creatureOption.Value">@creatureOption.Text</option>
+            }
+            </select>
+            <input type="submit" value="Submit" />
+        </form>
+}
+else
+{
+        <p>No creatures found.</p>
+}*@

@@ -6,6 +6,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using static PathfinderToolkit.Models.Resources.Bestiary;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using static PathfinderToolkit.Models.Resources;
+using static System.Reflection.Metadata.BlobBuilder;
 //using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace PathfinderToolkit.Models;
@@ -313,9 +316,15 @@ public class Resources
     {
         public class BestiaryViewModel
         {
-            public Creature AgeOfAshesCreature { get; set; }
-            public Creature AbominationVaultsCreature { get; set; }
+            public List<Creature> Creatures { get; set; }
+            public List<SelectListItem> BookDropdown { get; set; }
+            public string SelectedBook { get; set; }
+            public List<SelectListItem> Books { get; set; }
+            public string SelectedBookId { get; set; }
+            public int MyProperty { get; set; }
+
         }
+
         public class Abilities
         {
             public List<Bot> bot { get; set; }
@@ -325,20 +334,34 @@ public class Resources
         public List<string> traits { get; set; }
         public Perception perception { get; set; }
         public Languages languages { get; set; }
-         public Skills skills { get; set; }
+        //public Skills skills { get; set; }
         public Speed speed { get; set; }
         public List<Attack> attacks { get; set; }
         public Abilities abilities { get; set; }
         public Defenses defenses { get; set; }
         public List<Spellcasting> spellcasting { get; set; }
         public List<Sense> senses { get; set; }
-
+        public class Speed
+        {
+            public int walk { get; set; }
+            public int? climb { get; set; }
+            public int? fly { get; set; }
+            public int? swim { get; set; }
+        }
         public class Bot
         {            
             public Activity activity { get; set; }
             public List<string> traits { get; set; }
             public List<object> entries { get; set; }
             public string name { get; set; }
+
+            public class Speed
+        {
+            public int walk { get; set; }
+            public int? climb { get; set; }
+            public int? fly { get; set; }
+            public int? swim { get; set; }
+        }
 /*            public string type { get; set; }
             public int? DC { get; set; }
             public string savingThrow { get; set; }

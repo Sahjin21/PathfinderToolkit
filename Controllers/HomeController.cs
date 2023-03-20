@@ -4,7 +4,10 @@ using System.Diagnostics;
 using System.Text.Json;
 using Newtonsoft.Json;
 using System.ComponentModel;
-//using static PathfinderToolkit.Models.Resources.Bestiary;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
 
 namespace PathfinderToolkit.Controllers
 {
@@ -19,6 +22,12 @@ namespace PathfinderToolkit.Controllers
 
         public IActionResult Index()
         {
+            string apiKey = "AIzaSyCHi8gEmP4ndvTFM6BmSIIWfhCwbrH0LTw";
+            var service = new DriveService(new BaseClientService.Initializer()
+            {
+                ApiKey = apiKey,
+                ApplicationName = "PathfinderToolkit",
+            });
             return View();
         }
         public IActionResult GM()
