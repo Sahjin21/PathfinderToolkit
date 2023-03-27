@@ -6,10 +6,24 @@
 <h1>JSON File Path: @Model.JsonFilePath</h1>
 
 
+@if (Model != null )
+{
+<form method="post">
+    <select id="creatureDropdown" name="creatureDropdown">
+        <option value="">Select an creature</option>
+        @foreach (var creature in ViewBag.Creatures ?? Enumerable.Empty<SelectListItem>())
+        {
+                <option value="@creature.Value">@creature.Text</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>
+}
+else
+{
+    <p>No creatures found.</p>
+}
 
-
-
-@*<h2>@Model.Creatures.Count</h2>*@
 
 
 
