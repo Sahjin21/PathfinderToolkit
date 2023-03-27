@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using static PathfinderToolkit.Models.Resources.Bestiary;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using static PathfinderToolkit.Models.Resources.Creature;
-using static PathfinderToolkit.Models.Resources.Creature.BestiaryViewModel;
+using static PathfinderToolkit.Models.Resources.BestiaryViewModel;
 using Newtonsoft.Json.Linq;
 using static System.Formats.Asn1.AsnWriter;
 using System.Runtime.Intrinsics.X86;
@@ -79,20 +79,52 @@ namespace PathfinderToolkit.Controllers
         }
 
 
+        /*        [HttpPost]
+                public IActionResult Bestiary(BestiaryViewModel model, string creatureDropdown)
+                {
+                    try
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            model.SelectedBook = Request.Form["SelectedBook"];
+                            var creaturesJson = System.IO.File.ReadAllText($"wwwroot/Data/Json PF/bestiary/{model.SelectedBook}.json");
+                            model.Creatures = JsonConvert.DeserializeObject<List<Resources.Creature>>(creaturesJson);
+                        }
+
+                        // Always set the creatures dropdown list
+                        var creatureList = model.Creatures?.ToArray() ?? new Resources.Creature[0];
+                        ViewBag.Creatures = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+
+                        // Set the selected creature
+                        var selectedCreature = creatureList.FirstOrDefault(a => a.name == creatureDropdown);
+                        model.SelectedCreature = selectedCreature;
+
+                        return View("~/Views/Home/Resources/Bestiary.cshtml", model);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return View("~/Views/Shared/Error.cshtml", model);
+                    }
+                }*/
         [HttpPost]
         public IActionResult Bestiary(BestiaryViewModel model, string creatureDropdown)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    model.SelectedBook = Request.Form["SelectedBook"];
-                    var creaturesJson = System.IO.File.ReadAllText($"wwwroot/Data/Json PF/bestiary/{model.SelectedBook}.json");
-                    model.Creatures = JsonConvert.DeserializeObject<List<Resources.Creature>>(creaturesJson);
-                    var creatureList = model.Creatures.ToArray();
-                    ViewBag.Creatures = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
-                    var selectedCreature = creatureList.FirstOrDefault(a => a.name == creatureDropdown);
-                }
+                model.SelectedBook = Request.Form["SelectedBook"];
+                string jsonFilePath = Path.Combine("wwwroot/Data/Json PF/bestiary", $"{model.SelectedBook}.json");
+                jsonFilePath = jsonFilePath.Replace("\\", "/");
+                model.JsonFilePath = jsonFilePath;
+                string jsonString = System.IO.File.ReadAllText(jsonFilePath);
+                var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(jsonString);
+                var creatureList = json["creature"].ToArray();
+                ViewBag.Creatures = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+                
+                var selectedCreature = creatureList.FirstOrDefault(a => a.name == creatureDropdown);
+                model.SelectedCreature = selectedCreature;
+
+
                 return View("~/Views/Home/Resources/Bestiary.cshtml", model);
             }
             catch (Exception ex)
@@ -101,8 +133,6 @@ namespace PathfinderToolkit.Controllers
                 return View("~/Views/Shared/Error.cshtml", model);
             }
         }
-
-
 
 
         public IActionResult Index()

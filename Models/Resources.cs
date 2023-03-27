@@ -312,19 +312,18 @@ public class Resources
         public int? Level { get; set; }
     }
 
+    public class BestiaryViewModel
+    {
+        public List<Creature> Creatures { get; set; }
+        public List<SelectListItem> BookDropdown { get; set; }
+        public string SelectedBook { get; set; }
+        public List<SelectListItem> Books { get; set; }
+        public Creature SelectedCreature { get; set; }
+        public string JsonFilePath { get; set; }
+        public string SelectedCreatureName { get; set; }
+    }
     public class Creature
     {
-        public class BestiaryViewModel
-        {
-            public List<Creature> Creatures { get; set; }
-            public List<SelectListItem> BookDropdown { get; set; }
-            public string SelectedBook { get; set; }
-            public List<SelectListItem> Books { get; set; }
-            public string SelectedBookId { get; set; }
-            public int MyProperty { get; set; }
-
-        }
-
         public class Abilities
         {
             public List<Bot> bot { get; set; }
@@ -373,6 +372,7 @@ public class Resources
             public string trigger { get; set; }
             public Frequency frequency { get; set; }*/
         }
+
     }
     public class Bestiary
     {
