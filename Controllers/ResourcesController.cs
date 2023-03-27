@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using static PathfinderToolkit.Models.Resources;
 using static PathfinderToolkit.Models.JsonReader;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using static PathfinderToolkit.Models.Resources.Bestiary;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using static PathfinderToolkit.Models.Resources.Creature;
 using static PathfinderToolkit.Models.Resources.BestiaryViewModel;
@@ -17,8 +15,9 @@ using static System.Formats.Asn1.AsnWriter;
 using System.Runtime.Intrinsics.X86;
 using System.Xml.Linq;
 using System;
-
-
+using Microsoft.AspNetCore.Http;
+using System.Reflection;
+using System.Text;
 
 namespace PathfinderToolkit.Controllers
 {
@@ -28,7 +27,6 @@ namespace PathfinderToolkit.Controllers
         {
             string jsonFilePath = "wwwroot/Data/Json PF/abilities.json";
             string jsonString = System.IO.File.ReadAllText(jsonFilePath);
-
             var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Ability>>>(jsonString);
             var abilityList = json["ability"].ToArray();
 
@@ -60,80 +58,136 @@ namespace PathfinderToolkit.Controllers
         {
             return View("~/Views/Home/Resources/DiceRoller.cshtml");
         }
+
+        private readonly string bestiaryDirectoryPath = "wwwroot/Data/Json PF/bestiary/";
+
         [HttpGet]
-       public IActionResult Bestiary()
+        public IActionResult Bestiary()
         {
             var model = new BestiaryViewModel();
-
             // Populate book dropdown
-            var bookFiles = Directory.GetFiles("wwwroot/Data/Json PF/bestiary/", "*.json");
-
+            model.bookFiles = Directory.GetFiles(bestiaryDirectoryPath, "*.json");
             model.BookDropdown = new List<SelectListItem>();
-            foreach (var bookFile in bookFiles)
+
+            foreach (var bookFile in model.bookFiles)
             {
                 var bookName = Path.GetFileNameWithoutExtension(bookFile);
                 model.BookDropdown.Add(new SelectListItem { Value = bookName, Text = bookName });
             }
+            // Store the dropdown list in the model for future use
+            model.BookDropdown = model.BookDropdown.Select(x => new SelectListItem { Value = x.Value, Text = x.Text }).ToList();
 
             return View("~/Views/Home/Resources/Bestiary.cshtml", model);
         }
 
-
-        /*        [HttpPost]
-                public IActionResult Bestiary(BestiaryViewModel model, string creatureDropdown)
-                {
-                    try
-                    {
-                        if (ModelState.IsValid)
-                        {
-                            model.SelectedBook = Request.Form["SelectedBook"];
-                            var creaturesJson = System.IO.File.ReadAllText($"wwwroot/Data/Json PF/bestiary/{model.SelectedBook}.json");
-                            model.Creatures = JsonConvert.DeserializeObject<List<Resources.Creature>>(creaturesJson);
-                        }
-
-                        // Always set the creatures dropdown list
-                        var creatureList = model.Creatures?.ToArray() ?? new Resources.Creature[0];
-                        ViewBag.Creatures = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
-
-                        // Set the selected creature
-                        var selectedCreature = creatureList.FirstOrDefault(a => a.name == creatureDropdown);
-                        model.SelectedCreature = selectedCreature;
-
-                        return View("~/Views/Home/Resources/Bestiary.cshtml", model);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        return View("~/Views/Shared/Error.cshtml", model);
-                    }
-                }*/
         [HttpPost]
-        public IActionResult Bestiary(BestiaryViewModel model, string creatureDropdown)
+        public IActionResult Bestiary(BestiaryViewModel model)
         {
-            try
+            // Set the selected book in the model
+            model.SelectedBook = Request.Form["SelectedBook"];
+            if (!string.IsNullOrEmpty(model.SelectedBook))
             {
-                model.SelectedBook = Request.Form["SelectedBook"];
-                string jsonFilePath = Path.Combine("wwwroot/Data/Json PF/bestiary", $"{model.SelectedBook}.json");
-                jsonFilePath = jsonFilePath.Replace("\\", "/");
-                model.JsonFilePath = jsonFilePath;
-                string jsonString = System.IO.File.ReadAllText(jsonFilePath);
-                var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(jsonString);
-                var creatureList = json["creature"].ToArray();
-                ViewBag.Creatures = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
-                
-                var selectedCreature = creatureList.FirstOrDefault(a => a.name == creatureDropdown);
-                model.SelectedCreature = selectedCreature;
-
-
-                return View("~/Views/Home/Resources/Bestiary.cshtml", model);
+                try
+                {
+                    string jsonFilePath = Path.Combine(bestiaryDirectoryPath, $"{model.SelectedBook}.json");
+                    model.jsonString = System.IO.File.ReadAllText(jsonFilePath);
+                    jsonFilePath = jsonFilePath.Replace("\\", "/");
+                    var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(model.jsonString);
+                    model.Creatures = json["creature"];
+                    model.JsonFilePath = jsonFilePath;
+                    var creatureList = json["creature"].ToArray();
+                    ViewBag.Creatures = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+                    ViewBag.JsonFilePath = jsonFilePath;
+                    model.JsonFilePath = jsonFilePath;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return View("~/Views/Shared/Error.cshtml", model);
+                }
             }
-            catch (Exception ex)
+
+            // Update book dropdown if necessary
+            if (model.BookDropdown == null)
             {
-                Console.WriteLine(ex.Message);
-                return View("~/Views/Shared/Error.cshtml", model);
+                var bookFiles = Directory.GetFiles(bestiaryDirectoryPath, "*.json");
+                model.BookDropdown = new List<SelectListItem>();
+
+                foreach (var bookFile in bookFiles)
+                {
+                    var bookName = Path.GetFileNameWithoutExtension(bookFile);
+                    model.BookDropdown.Add(new SelectListItem { Value = bookName, Text = bookName });
+                }
             }
+            return View("~/Views/Home/Resources/Bestiary.cshtml", model);
         }
 
+        [HttpPost]
+        public IActionResult SelectCreature(BestiaryViewModel model, string SelectedCreature)
+        {
+            try
+                {
+                string jsonString = System.IO.File.ReadAllText(model.JsonFilePath, Encoding.UTF8);
+                jsonString = jsonString.Replace("\r", ""); // Remove carriage return characters
+                System.Diagnostics.Debug.WriteLine("JsonFilePath: " + model.JsonFilePath);
+                System.Diagnostics.Debug.WriteLine("\"" + jsonString + "\"");
+                var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(jsonString);
+                System.Diagnostics.Debug.WriteLine(model.JsonFilePath);
+                System.Diagnostics.Debug.WriteLine(model.jsonString);
+                if (json.ContainsKey("creature"))
+                {
+                    System.Diagnostics.Debug.WriteLine("creature is not null");
+                }
+                if (json == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("json is null");
+                }
+                else if (!json.ContainsKey("creature"))
+                {
+                    System.Diagnostics.Debug.WriteLine("creature key not found in json");
+                }
+                else
+                {
+                    var creatureList = json["creature"].ToArray();
+                    ViewBag.Creature = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+                   // var selectedCreature = creatureList.FirstOrDefault(a => a.name == model.SelectedCreature?.name) ?? creatureList.FirstOrDefault();
+                
+                }
+                model.SelectedCreatureName = Request.Form["SelectedCreatureName"];
+                model.Creatures = json["creature"];
+                var selectedCreature = json["creature"].FirstOrDefault(a => a.name == model.SelectedCreatureName);
+
+                if (selectedCreature == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("SelectedCreature not found");
+                }
+                else
+                {
+                    model.SelectedCreature = selectedCreature;
+                }              
+            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return View("~/Views/Shared/Error.cshtml", model);
+                }
+            // Update book dropdown if necessary
+            if (model.BookDropdown == null)
+            {
+                var bookFiles = Directory.GetFiles(bestiaryDirectoryPath, "*.json");
+                model.BookDropdown = new List<SelectListItem>();
+
+                foreach (var bookFile in bookFiles)
+                {
+                    var bookName = Path.GetFileNameWithoutExtension(bookFile);
+                    model.BookDropdown.Add(new SelectListItem { Value = bookName, Text = bookName });
+                }
+            }
+            System.Diagnostics.Debug.WriteLine("JsonFilePath: " + model.JsonFilePath);
+            System.Diagnostics.Debug.WriteLine("SelectedCreature name: " + model.SelectedCreatureName);
+            System.Diagnostics.Debug.WriteLine("Selected Book: " + model.SelectedBook);
+            return View("~/Views/Home/Resources/Bestiary.cshtml", model);
+        }
 
         public IActionResult Index()
         {

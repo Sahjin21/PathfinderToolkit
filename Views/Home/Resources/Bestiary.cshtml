@@ -5,20 +5,21 @@
 }
 
 <h1>Bestiary</h1>
-
-
-
+@if (Model != null)
+{
+    <h1>@Model.JsonFilePath</h1>
+}
 @if (Model != null && Model.BookDropdown != null && Model.BookDropdown.Any())
 {
-    <form id="bookForm" method="post">
-        <label for="bookList">Select a book:</label>
-        <ol id="bookList">
-            @foreach (var bookOption in Model.BookDropdown)
+    <form method="post" action="@Url.Action("Bestiary")">
+        <select id="bookList" name="SelectedBook">
+            <option value="">Select a Book</option>
+            @foreach (var book in Model.BookDropdown ?? Enumerable.Empty<SelectListItem>())
             {
-                <li><a href="#" onclick="selectBook('@bookOption.Value')">@bookOption.Text</a></li>
+                <option value="@book.Value">@book.Text</option>
             }
-        </ol>
-        <input type="hidden" name="SelectedBook" id="selectedBook" value="@Model.SelectedBook" />
+        </select>
+        <button type="submit">Submit</button>
     </form>
 }
 else
@@ -26,141 +27,53 @@ else
     <p>No books found.</p>
 }
 
-
-
+@if (Model.SelectedBook != null)
+{
+    <h1>@Model.SelectedBook</h1>
+    <form method="post" action="@Url.Action("SelectCreature")">
+        <input type="hidden" name="SelectedBook" value="@Model.SelectedBook" />
+        <input type="hidden" name="JsonFilePath" value="@Model.JsonFilePath" />
+        <input type="hidden" name="SelectedCreature" value="@Model.SelectedCreature?.name" />
+        <select id="creatureList" name="SelectedCreatureName" >
+            <option value="">Select a creature</option>
+            @foreach (var creature in ViewBag.Creatures ?? Enumerable.Empty<SelectListItem>())
+            {   
+                if (Model.SelectedCreature != null )
+                {
+                    <option value="@creature.Value" selected>@creature.Text</option>
+                }
+                else
+                {
+                    <option value="@creature.Value">@creature.Text</option>
+                }
+            }
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+}
+@if (Model.SelectedCreature == null)
+{
+    <h1>Model.SelectedCreature is null</h1>
+}
+@if (Model.SelectedCreature != null)
+{
+    <h1>Model.SelectedCreature not null</h1>
+    <h1>"Name: " @Model.SelectedCreature.name</h1>
+    <h1>"Level" @Model.SelectedCreature.level</h1>
+}
+@{
+    ViewData["JsonFilePath"] = Model.JsonFilePath;
+}
 @section Scripts{
     <script>
-        function selectBook(bookUrl) {
-            $("#selectedBook").val(bookUrl);
-            $("#bookForm").submit();
-        }
-    </script>
-}
-@*@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $("#bookForm").submit(function (event) {
-                event.preventDefault();
-                var selectedBook = $("#bookDropdown").val();
-                var jsonUrl = "@Url.Action("Bestiary", "Resources")";
-
-                $.ajax({
-                    url: jsonUrl,
-                    data: { "bookName": selectedBook },
-                    type: "GET",
-                    success: function (data) {
-                        var rows = "";
-
-                        $.each(data, function (index, monster) {
-                            rows += "<tr>";
-                            rows += "<td>" + monster.Name + "</td>";
-                            rows += "</tr>";
-                        });
-
-                        $("#bestiaryTable tbody").html(rows);
-                    }
-                });
+        $(function () {
+            $('#bookList').on('change', function () {
+                $('#bookForm').submit();
+            });
+            $('#creatureList').on('change', function () {
+                $('#creatureForm').submit();
             });
         });
     </script>
-}*@
-
-
-
-@*@model Resources.Creature.BestiaryViewModel
-
-@{
-    ViewData["Title"] = "Bestiary";
 }
 
-
-<h1>Bestiary</h1>
-
-<form method="post">
-    @if (Model != null)
-    {
-        <label for="bookDropdown">Select a book:</label>
-        <select id="bookDropdown" name="SelectedBook">
-            @foreach (var bookOption in Model.BookDropdown)
-            {
-                <option value="@bookOption.Value">@bookOption.Text</option>
-            }
-    </select>
-        <button type="submit">Submit</button>
-    }
-</form>*@
-
-
-
-
-
-@Html.Partial("~/Views/Home/Resources/_Creatures.cshtml", Model)
-
-
-
-
-@*@if (Model.Creatures != null && Model.Creatures.Any())
-{
-<ul>
-    @foreach (var creature in Model.Creatures)
-    {
-        <li>@creature.name</li>
-    }
-</ul>
-}
-else
-{
-    <p>No creatures found.</p>*@
-
-@*<form method="get" action="@Url.Action("Bestiary", "Resources")">
-    <select id="ageOfAshesDropdown" name="ageOfAshesDropdown">
-        <option value="">Age Of Ashes</option>
-        @foreach (var creature in ViewBag.ageOfAshesCreature ?? Enumerable.Empty<SelectListItem>())
-        {
-            <option value="@creature.Value">@creature.Text</option>
-        }
-    </select>
-    <button type="submit">Submit</button>
-    <select id="abominationVaultsDropdown" name="abominationVaultsDropdown">
-        <option value="">Abomination Vaults</option>
-        @foreach (var creature in ViewBag.abominationVaultsCreature ?? Enumerable.Empty<SelectListItem>())
-        {
-            <option value="@creature.Value">@creature.Text</option>
-        }
-    </select>
-    <button type="submit">Submit</button>
-
-
-
-
-</form>*@
-
-
-@*@if (Model != null)
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Level</th>
-                <th>Perception</th>
-                <th>Traits</th>
-                <th>Abilities</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@Model.AgeOfAshesCreature?.name</td>
-                <td>@Model.AgeOfAshesCreature?.level</td>
-                <td>@(Model.AgeOfAshesCreature?.perception != null ? Model.AgeOfAshesCreature.perception.std.ToString() : "")</td>
-                <td>@Html.Raw(string.Join("<br>", (Model.AgeOfAshesCreature?.traits ?? Enumerable.Empty<string>()).Select(e => e.ToString())))</td>
-
-                <td>
-                    @if (Model.AgeOfAshesCreature?.abilities != null && Model.AgeOfAshesCreature.abilities.bot != null)
-    {
-                        @Html.Raw(string.Join("<br>", Model.AgeOfAshesCreature?.abilities.bot.Select(e => e.name)))
-    }</td>
-                </tr>
-        </tbody>
-    </table>
-}*@
