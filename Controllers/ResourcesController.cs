@@ -45,6 +45,7 @@ namespace PathfinderToolkit.Controllers
         [HttpPost]
         public IActionResult Ability(string abilityDropdown)
         {
+            //Readpath abilityDropdown and deserialize selected json file
             string jsonFilePath = "wwwroot/Data/Json PF/abilities.json";
             string jsonString = System.IO.File.ReadAllText(jsonFilePath);
             var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Ability>>>(jsonString);
@@ -89,6 +90,7 @@ namespace PathfinderToolkit.Controllers
             {
                 try
                 {
+                    //Readpath bookDropdown and deserialize selected json file
                     string jsonFilePath = Path.Combine(bestiaryDirectoryPath, $"{model.SelectedBook}.json");
                     model.jsonString = System.IO.File.ReadAllText(jsonFilePath);
                     jsonFilePath = jsonFilePath.Replace("\\", "/");
@@ -127,13 +129,12 @@ namespace PathfinderToolkit.Controllers
         {
             try
                 {
+                //Readpath creatureDropdown and deserialize selected json file
                 string jsonString = System.IO.File.ReadAllText(model.JsonFilePath, Encoding.UTF8);
                 jsonString = jsonString.Replace("\r", ""); // Remove carriage return characters
-                System.Diagnostics.Debug.WriteLine("JsonFilePath: " + model.JsonFilePath);
-                System.Diagnostics.Debug.WriteLine("\"" + jsonString + "\"");
                 var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Creature>>>(jsonString);
-                System.Diagnostics.Debug.WriteLine(model.JsonFilePath);
-                System.Diagnostics.Debug.WriteLine(model.jsonString);
+
+                //Verifies json data is valid.
                 if (json.ContainsKey("creature"))
                 {
                     System.Diagnostics.Debug.WriteLine("creature is not null");
@@ -183,12 +184,11 @@ namespace PathfinderToolkit.Controllers
                     model.BookDropdown.Add(new SelectListItem { Value = bookName, Text = bookName });
                 }
             }
-            System.Diagnostics.Debug.WriteLine("JsonFilePath: " + model.JsonFilePath);
+            /*System.Diagnostics.Debug.WriteLine("JsonFilePath: " + model.JsonFilePath);
             System.Diagnostics.Debug.WriteLine("SelectedCreature name: " + model.SelectedCreatureName);
-            System.Diagnostics.Debug.WriteLine("Selected Book: " + model.SelectedBook);
+            System.Diagnostics.Debug.WriteLine("Selected Book: " + model.SelectedBook);*/
             return View("~/Views/Home/Resources/Bestiary.cshtml", model);
         }
-
         public IActionResult Index()
         {
             return View();

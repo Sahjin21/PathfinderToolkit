@@ -73,6 +73,9 @@ public class Resources
         public List<SelectList> BookDropdownList { get; set; }
 
     }
+
+
+    //TODO uncomment properties and verify functionality
     public class Creature
     {
         /*        public class Abilities
@@ -126,6 +129,8 @@ public class Resources
        // }
 
     }
+
+    //This will be deleted after identifying any properties I may want in the Creature class
     /*public class Bestiary
     {
         public class Abilities
