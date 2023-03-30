@@ -28,6 +28,41 @@
             <div class="ability-content">@Model.page</div>
         </div>
         <div class="ability-container">
+            <div class="ability-header">Creatures</div>
+            <div class="ability-content">
+                @if (Model.creature != null && Model.creature.Any())
+                {
+                    <ul>
+                        @foreach (var creature in Model.creature)
+                        {
+                            <li>@creature</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No creatures available</p>
+                }
+            </div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Activity</div>
+            <div class="ability-content">
+                @if (Model.activity != null)
+                {
+                    <ul>
+                        <li>Name: @Model.activity.number</li>
+                        <li>Type: @Model.activity.entry</li>
+                        <li>Components: @Model.activity.unit</li>
+                    </ul>
+                }
+                else
+                {
+                    <p>No activity available</p>
+                }
+            </div>
+        </div>
+        <div class="ability-container">
             <div class="ability-header">Traits</div>
             @*This works for a list of strings*@
             <div class="ability-content">@Html.Raw(string.Join("<br>", (Model.traits ?? Enumerable.Empty<string>()).Select(e => e.ToString())))</div>
@@ -46,6 +81,10 @@
             @*This works for a list of objects*@
             <div class="ability-content">@Html.Raw(string.Join("<br>", Model.entries.Select(e => e.ToString())))</div>
         </div>
-    </div>
-     
+        <div class="ability-container">
+            <div class="ability-header">Frequency</div>
+            @(Model.frequency != null ? $"{Model.frequency.freq} per {Model.frequency.special}" : "")
+        </div>
+
+    </div>   
 }

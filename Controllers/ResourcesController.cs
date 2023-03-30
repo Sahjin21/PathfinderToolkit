@@ -54,7 +54,36 @@ namespace PathfinderToolkit.Controllers
             var selectedAbility = abilityList.FirstOrDefault(a => a.name == abilityDropdown);
             return View("~/Views/Home/Resources/Ability.cshtml", selectedAbility);
         }
+        public IActionResult Actions()
+        {
+            string jsonFilePath = "wwwroot/Data/Json PF/actions.json";
+            string jsonString = System.IO.File.ReadAllText(jsonFilePath);
+            var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Actions>>>(jsonString);
+            var actionList = json["action"].ToArray();
 
+            ViewBag.Actions = actionList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+
+            Resources.Actions selectedAction = null;
+            if (Request.Method == "POST")
+            {
+                var selectedActionName = Request.Form["actionDropdown"];
+                selectedAction = actionList.FirstOrDefault(a => a.name == selectedActionName);
+            }
+
+            return View("~/Views/Home/Resources/Actions.cshtml", selectedAction);
+        }
+        [HttpPost]
+        public IActionResult Actions(string actionDropdown)
+        {
+            //Readpath actionDropdown and deserialize selected json file
+            string jsonFilePath = "wwwroot/Data/Json PF/actions.json";
+            string jsonString = System.IO.File.ReadAllText(jsonFilePath);
+            var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Actions>>>(jsonString);
+            var actionList = json["action"].ToArray();
+            ViewBag.Actions = actionList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+            var selectedAction = actionList.FirstOrDefault(a => a.name == actionDropdown);
+            return View("~/Views/Home/Resources/Actions.cshtml", selectedAction);
+        }
         public IActionResult DiceRoller()
         {
             return View("~/Views/Home/Resources/DiceRoller.cshtml");
@@ -152,10 +181,11 @@ namespace PathfinderToolkit.Controllers
                     var creatureList = json["creature"].ToArray();
                     ViewBag.Creature = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
                    // var selectedCreature = creatureList.FirstOrDefault(a => a.name == model.SelectedCreature?.name) ?? creatureList.FirstOrDefault();
-                
+                    
                 }
                 model.SelectedCreatureName = Request.Form["SelectedCreatureName"];
-                model.Creatures = json["creature"];
+                //this line may be uneccessary
+                //model.Creatures = json["creature"];
                 var selectedCreature = json["creature"].FirstOrDefault(a => a.name == model.SelectedCreatureName);
 
                 if (selectedCreature == null)
@@ -184,11 +214,11 @@ namespace PathfinderToolkit.Controllers
                     model.BookDropdown.Add(new SelectListItem { Value = bookName, Text = bookName });
                 }
             }
-            /*System.Diagnostics.Debug.WriteLine("JsonFilePath: " + model.JsonFilePath);
-            System.Diagnostics.Debug.WriteLine("SelectedCreature name: " + model.SelectedCreatureName);
-            System.Diagnostics.Debug.WriteLine("Selected Book: " + model.SelectedBook);*/
+            //System.Diagnostics.Debug.WriteLine("SelectedCreature name: " + model.SelectedCreatureName);
             return View("~/Views/Home/Resources/Bestiary.cshtml", model);
         }
+
+
         public IActionResult Index()
         {
             return View();

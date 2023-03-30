@@ -15,7 +15,6 @@ public class Resources
     public class Ability
     {
         public string name { get; set; }
-        public OtherSources otherSources { get; set; }
         public string source { get; set; }
         public int page { get; set; }
         public List<object> entries { get; set; }
@@ -26,39 +25,65 @@ public class Resources
         public Frequency frequency { get; set; }
         public string requirements { get; set; }
     }
+    public class Root
+    {
+        public List<Ability> ability { get; set; }
+        public List<Actions> action { get; set; }
+    }
+    public class Actions
+    {
+        public string name { get; set; }
+        public Activity activity { get; set; }
+        public string source { get; set; }
+        public int page { get; set; }
+        public List<string> traits { get; set; }
+        public string requirements { get; set; }
+        public List<object> entries { get; set; }
+        public string trigger { get; set; }
+        public Frequency frequency { get; set; }
+        public string prerequisites { get; set; }
+        public List<string> special { get; set; }
+        public ActionType actionType { get; set; }
+        public List<object> info { get; set; }
+        public string cost { get; set; }
+        public string add_hash { get; set; }
+    }
+
+    public class ActionType
+    {
+        public List<string> @class { get; set; }
+        public List<string> archetype { get; set; }
+        public bool? basic { get; set; }
+        public Skill skill { get; set; }
+        public List<string> ancestry { get; set; }
+        public List<string> heritage { get; set; }
+        public List<string> variantrule { get; set; }
+        public List<string> versatileHeritage { get; set; }
+        public List<string> subclass { get; set; }
+        public bool? item { get; set; }
+    }
 
     public class Activity
     {
         public int number { get; set; }
         public string unit { get; set; }
+        public string entry { get; set; }
     }
 
     public class Frequency
     {
         public int freq { get; set; }
         public string unit { get; set; }
+        public string special { get; set; }
+        public int? interval { get; set; }
     }
 
-    public class OtherSources
+
+    public class Skill
     {
-        public List<string> Reprinted { get; set; }
+        public List<string> untrained { get; set; }
+        public List<string> trained { get; set; }
     }
-
-    public class Root
-    {
-        public List<Ability> ability { get; set; }
-    }
-
-    public class Test
-    {
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
-        [JsonPropertyName("page")]
-        public int? Page { get; set; }
-        [JsonPropertyName("level")]
-        public int? Level { get; set; }
-    }
-
     public class BestiaryViewModel
     {
         public List<Creature> Creatures { get; set; }
@@ -71,7 +96,6 @@ public class Resources
         public string[] bookFiles{ get; set; }
         public string SelectedCreatureName { get; set; }
         public List<SelectList> BookDropdownList { get; set; }
-
     }
 
 
@@ -82,7 +106,7 @@ public class Resources
                 {
                     public List<Bot> bot { get; set; }
                 }*/
-        [JsonPropertyName("name")]
+        //[JsonPropertyName("name")]
         public string name { get; set; }
         public int level { get; set; }
         //public List<string> traits { get; set; }
@@ -460,7 +484,7 @@ public class Resources
         }
 
     }*/
-
+    
 }
 
 

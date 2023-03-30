@@ -1,0 +1,23 @@
+﻿@model PathfinderToolkit.Models.Resources.Actions
+
+<form method="post">
+    <select id="actionDropdown" name="actionDropdown">
+        <option value="">Select an action</option>
+        @foreach (var action in ViewBag.Actions ?? Enumerable.Empty<SelectListItem>())
+        {
+            <option value="@action.Value">@action.Text</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+@if (Model != null)
+{
+
+    <div class="action-table">
+        <div class="ability-container action-name">
+            <div class="action-header">Name</div>
+            <div class="action-content .action-name">@Model.name</div>
+        </div>
+    </div>
+}

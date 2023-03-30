@@ -5,10 +5,7 @@
 }
 
 <h1>Bestiary</h1>
-@if (Model != null)
-{
-    <h1>@Model.JsonFilePath</h1>
-}
+
 @if (Model != null && Model.BookDropdown != null && Model.BookDropdown.Any())
 {
     <form method="post" action="@Url.Action("Bestiary")">
@@ -33,7 +30,7 @@ else
     <form method="post" action="@Url.Action("SelectCreature")">
         <input type="hidden" name="SelectedBook" value="@Model.SelectedBook" />
         <input type="hidden" name="JsonFilePath" value="@Model.JsonFilePath" />
-        <input type="hidden" name="SelectedCreature" value="@Model.SelectedCreature?.name" />
+        <input type="hidden" name="SelectedCreature" value="@Model.SelectedCreature" />
         <select id="creatureList" name="SelectedCreatureName" >
             <option value="">Select a creature</option>
             @foreach (var creature in ViewBag.Creatures ?? Enumerable.Empty<SelectListItem>())
@@ -51,13 +48,9 @@ else
         <button type="submit">Submit</button>
     </form>
 }
-@if (Model.SelectedCreature == null)
-{
-    <h1>Model.SelectedCreature is null</h1>
-}
+
 @if (Model.SelectedCreature != null)
 {
-    <h1>Model.SelectedCreature not null</h1>
     <h1>"Name: " @Model.SelectedCreature.name</h1>
     <h1>"Level" @Model.SelectedCreature.level</h1>
 }
@@ -72,6 +65,12 @@ else
             });
             $('#creatureList').on('change', function () {
                 $('#creatureForm').submit();
+            });
+        });
+        $(document).ready(function () {
+            // Update the value of the hidden input field whenever a new book is selected
+            $('#bookDropdown').on('change', function () {
+                $('#SelectedBook').val($(this).val());
             });
         });
     </script>
