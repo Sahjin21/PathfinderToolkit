@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static PathfinderToolkit.Models.Resources;
 using static System.Reflection.Metadata.BlobBuilder;
+using Google.Apis.Drive.v3.Data;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
 
 namespace PathfinderToolkit.Models;
 
@@ -106,26 +109,90 @@ public class Resources
                 {
                     public List<Bot> bot { get; set; }
                 }*/
-        //[JsonPropertyName("name")]
         public string name { get; set; }
         public int level { get; set; }
-        //public List<string> traits { get; set; }
-/*        public Perception perception { get; set; }
-        public Languages languages { get; set; }*/
-        //public Skills skills { get; set; }
-        //public Speed speed { get; set; }
-/*        public List<Attack> attacks { get; set; }*/
+        public List<string> traits { get; set; }
+        public Perception perception { get; set; }
+
+        public Languages languages { get; set; }
+        public Speed speed { get; set; }
+        /*        public List<Attack> attacks { get; set; }*/
         //public Abilities abilities { get; set; }
-/*        public Defenses defenses { get; set; }
-        public List<Spellcasting> spellcasting { get; set; }
-        public List<Sense> senses { get; set; }*/
-/*        public class Speed
+        public Defenses defenses { get; set; }
+                /*public List<Spellcasting> spellcasting { get; set; }
+                public List<Sense> senses { get; set; }*/
+        public class Perception
+        {
+            public int std { get; set; }
+        }
+        public class Languages
+        {
+            public List<string> languages { get; set; }
+        }
+        public class Ac
+        {
+            public int std { get; set; }
+
+            [JsonProperty("with shield raised")]
+            public int? withshieldraised { get; set; }
+
+            [JsonProperty("while withdrawn into its shell")]
+            public int? whilewithdrawnintoitsshell { get; set; }
+
+            [JsonProperty("with mage armor")]
+            public int? withmagearmor { get; set; }
+        }
+
+        public class Defenses
+        {
+            public Ac ac { get; set; }
+            public SavingThrows savingThrows { get; set; }
+            public List<Hp> hp { get; set; }
+            public List<string> immunities { get; set; }
+            public List<Resistance> resistances { get; set; }
+            public List<Weakness> weaknesses { get; set; }
+        }
+        public class Hp
+        {
+            public int hp { get; set; }
+            public List<string> abilities { get; set; }
+        }
+        public class SavingThrows
+        {
+            public Fort fort { get; set; }
+            public Ref @ref { get; set; }
+            public Will will { get; set; }
+        }
+        public class Fort
+        {
+            public int std { get; set; }
+        }
+        public class Ref
+        {
+            public int std { get; set; }
+        }
+        public class Speed
         {
             public int walk { get; set; }
             public int? climb { get; set; }
             public int? fly { get; set; }
             public int? swim { get; set; }
-        }*/
+        }
+        public class Resistance
+        {
+            public string name { get; set; }
+            public int? amount { get; set; }
+        }
+
+        public class Weakness
+        {
+            public int amount { get; set; }
+            public string name { get; set; }
+        }
+        public class Will
+        {
+            public int std { get; set; }
+        }
         /*public class Bot
         {            
             public Activity activity { get; set; }
@@ -133,24 +200,18 @@ public class Resources
             public List<object> entries { get; set; }
             public string name { get; set; }
 
-            public class Speed
-        {
-            public int walk { get; set; }
-            public int? climb { get; set; }
-            public int? fly { get; set; }
-            public int? swim { get; set; }
-        }*/
-/*            public string type { get; set; }
-            public int? DC { get; set; }
-            public string savingThrow { get; set; }
-            public string maxDuration { get; set; }
-            public List<Stage> stages { get; set; }
-            public Generic generic { get; set; }
-            public string entries_as_xyz { get; set; }
-            public string requirements { get; set; }
-            public string trigger { get; set; }
-            public Frequency frequency { get; set; }*/
-       // }
+*/
+        /*            public string type { get; set; }
+                    public int? DC { get; set; }
+                    public string savingThrow { get; set; }
+                    public string maxDuration { get; set; }
+                    public List<Stage> stages { get; set; }
+                    public Generic generic { get; set; }
+                    public string entries_as_xyz { get; set; }
+                    public string requirements { get; set; }
+                    public string trigger { get; set; }
+                    public Frequency frequency { get; set; }*/
+        // }
 
     }
 
@@ -410,10 +471,8 @@ public class Resources
             public Acrobatics acrobatics { get; set; }
             public Stealth stealth { get; set; }
             public Thievery thievery { get; set; }
-
             public Occultism occultism { get; set; }
             public Arcana arcana { get; set; }
-
         }
 
         public class Society
@@ -484,7 +543,7 @@ public class Resources
         }
 
     }*/
-    
+
 }
 
 

@@ -1,9 +1,10 @@
 ﻿@model PathfinderToolkit.Models.Resources.Actions
+@using System.Linq
 
 <form method="post">
     <select id="actionDropdown" name="actionDropdown">
         <option value="">Select an action</option>
-        @foreach (var action in ViewBag.Actions ?? Enumerable.Empty<SelectListItem>())
+            @foreach (var action in ((IEnumerable<SelectListItem>)ViewBag.Actions ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
         {
             <option value="@action.Value">@action.Text</option>
         }
@@ -13,11 +14,95 @@
 
 @if (Model != null)
 {
-
-    <div class="action-table">
-        <div class="ability-container action-name">
-            <div class="action-header">Name</div>
-            <div class="action-content .action-name">@Model.name</div>
-        </div>
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Activity</th>
+                <th>Source</th>
+                <th>Page</th>
+                <th>Traits</th>
+                <th>Requirements</th>
+                <th>Entries</th>
+                <th>Trigger</th>
+                <th>Frequency</th>
+                <th>ActionType</th>
+                <th>Info</th>
+                <th>Cost</th>
+                <th>Add_hash</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.name</td>
+                <td>
+                    @if (Model.activity != null)
+                    {
+                        <ul>
+                            <li>Name: @Model.activity.number</li>
+                            <li>Type: @Model.activity.entry</li>
+                            <li>Components: @Model.activity.unit</li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No activity available</p>
+                    }
+                </td>
+                <td>@Model.source</td>
+                <td>@Model.page</td>
+                <td>
+                    @if (Model.traits != null)
+                    {
+                        <ul>
+                            @foreach (var trait in Model.traits)
+                            {
+                                <li>@trait</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No traits available</p>
+                    }
+                </td>
+                <td>@(Model.requirements ?? "")</td>
+                <td>
+                    @if (Model.entries != null)
+                    {
+                        <ul>
+                            @foreach (var entry in Model.entries)
+                            {
+                                <li>@entry</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No entries available</p>
+                    }
+                </td>
+                <td>@(Model.trigger ?? "")</td>
+                <td>@(Model.frequency != null ? $"{Model.frequency.freq} per {Model.frequency.special}" : "")</td>
+                <td>@Model.actionType</td>
+                <td>
+                    @if (Model.info != null)
+                    {
+                        <ul>
+                            @foreach (var info in Model.info)
+                            {
+                                <li>@info</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No info available</p>
+                    }
+                </td>
+                <td>@Model.cost</td>
+                <td>@Model.add_hash</td>
+            </tr>
+        </tbody>
+    </table>
 }

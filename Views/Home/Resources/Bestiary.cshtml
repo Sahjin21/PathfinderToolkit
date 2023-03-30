@@ -11,7 +11,7 @@
     <form method="post" action="@Url.Action("Bestiary")">
         <select id="bookList" name="SelectedBook">
             <option value="">Select a Book</option>
-            @foreach (var book in Model.BookDropdown ?? Enumerable.Empty<SelectListItem>())
+            @foreach (var book in ((IEnumerable<SelectListItem>)Model.BookDropdown ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
             {
                 <option value="@book.Value">@book.Text</option>
             }
@@ -33,11 +33,12 @@ else
         <input type="hidden" name="SelectedCreature" value="@Model.SelectedCreature" />
         <select id="creatureList" name="SelectedCreatureName" >
             <option value="">Select a creature</option>
-            @foreach (var creature in ViewBag.Creatures ?? Enumerable.Empty<SelectListItem>())
+            @foreach (var creature in ((IEnumerable<SelectListItem>)ViewBag.Creatures ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
             {   
                 if (Model.SelectedCreature != null )
                 {
-                    <option value="@creature.Value" selected>@creature.Text</option>
+                    var selectedCreature = Model.Creatures.FirstOrDefault(c => c.name == creature.Text);
+                    <option value="@creature.Value"selected>@creature.Text</option>
                 }
                 else
                 {
@@ -51,12 +52,63 @@ else
 
 @if (Model.SelectedCreature != null)
 {
-    <h1>"Name: " @Model.SelectedCreature.name</h1>
-    <h1>"Level" @Model.SelectedCreature.level</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Level</th>
+                <th>AC</th>
+                <th>Traits</th>
+                <th>Perception</th>
+                <th>Languages</th>
+                <th>Speed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.SelectedCreature.name</td>
+                <td>@Model.SelectedCreature.level</td>
+                <td>@Html.DisplayFor(m => m.SelectedCreature.defenses.ac)</td>
+                <td>@Html.Raw(string.Join("<br/>", Model.SelectedCreature.traits))</td>
+                <td>@Html.DisplayFor(m => m.SelectedCreature.perception)</td>
+                <td>@foreach (var language in Model.SelectedCreature.languages.languages)
+    {
+        @language<br>
+    }</td>
+                @if (Model.SelectedCreature.speed.walk != 0)
+                {
+                    <td>Walk: @Model.SelectedCreature.speed.walk</td>
+                }
+                @if (Model.SelectedCreature.speed.climb.HasValue)
+                {
+                    <td>Climb: @Model.SelectedCreature.speed.climb</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+                @if (Model.SelectedCreature.speed.fly.HasValue)
+                {
+                    <td>Fly: @Model.SelectedCreature.speed.fly</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+                @if (Model.SelectedCreature.speed.swim.HasValue)
+                {
+                    <td>Swim @Model.SelectedCreature.speed.swim</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>            
+        </tbody>
+    </table>
 }
-@{
-    ViewData["JsonFilePath"] = Model.JsonFilePath;
-}
+
+
 @section Scripts{
     <script>
         $(function () {

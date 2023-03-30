@@ -184,6 +184,7 @@ namespace PathfinderToolkit.Controllers
                     
                 }
                 model.SelectedCreatureName = Request.Form["SelectedCreatureName"];
+                
                 //this line may be uneccessary
                 //model.Creatures = json["creature"];
                 var selectedCreature = json["creature"].FirstOrDefault(a => a.name == model.SelectedCreatureName);
