@@ -23,3 +23,4 @@ To use the application, simply navigate to the resource page and browse the avai
 
 To contribute to this project, please fork the repository and submit a pull request.
 
+![Example Image](wwwroot/Data/Images/ReadmeExample.png)
