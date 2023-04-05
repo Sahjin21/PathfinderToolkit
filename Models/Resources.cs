@@ -32,6 +32,8 @@ public class Resources
     {
         public List<Ability> ability { get; set; }
         public List<Actions> action { get; set; }
+        public List<Afflictions.Curse> curse { get; set; }
+        public List<Afflictions.Disease> disease { get; set; }
     }
     public class Actions
     {
@@ -72,6 +74,34 @@ public class Resources
         public string unit { get; set; }
         public string entry { get; set; }
     }
+
+    public class Afflictions
+    {
+        public List<Disease> disease { get; set; }
+        public List<Curse> curse { get; set; }
+        public class Curse
+        {
+            public string name { get; set; }
+            public string source { get; set; }
+            public int page { get; set; }
+            public string type { get; set; }
+            public object level { get; set; }
+            public List<string> traits { get; set; }
+            public List<object> entries { get; set; }
+            public List<string> temptedCurse { get; set; }
+        }
+        public class Disease
+        {
+            public string name { get; set; }
+            public string source { get; set; }
+            public int page { get; set; }
+            public string type { get; set; }
+            public int level { get; set; }
+            public List<string> traits { get; set; }
+            public List<object> entries { get; set; }
+        }
+    }
+
 
     public class Frequency
     {

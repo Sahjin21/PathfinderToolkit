@@ -1,0 +1,12 @@
+﻿@model PathfinderToolkit.Models.Resources.Afflictions
+
+@*<form method="post">
+    <select id="afflictionDropdown" name="afflictionDropdown">
+        <option value="">Select an affliction</option>
+        @foreach (var affliction in ((IEnumerable<SelectListItem>)ViewBag.Affliction ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
+        {
+            <option value="@affliction.Value">@affliction.Text</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>*@

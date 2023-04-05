@@ -84,6 +84,39 @@ namespace PathfinderToolkit.Controllers
             var selectedAction = actionList.FirstOrDefault(a => a.name == actionDropdown);
             return View("~/Views/Home/Resources/Actions.cshtml", selectedAction);
         }
+        public IActionResult Afflictions()
+        {
+            string jsonFilePath = "wwwroot/Data/Json PF/afflictions.json";
+            string jsonString = System.IO.File.ReadAllText(jsonFilePath);
+            var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, Resources.Afflictions>>(jsonString);
+
+            // Create an array to hold the afflictions data
+            var afflictionsArray = new List<object>();
+
+            // Add disease names to the afflictions array
+            afflictionsArray.AddRange(json["disease"].disease.Select(d => new {
+                Name = d.name,
+                Type = "Disease"
+            }));
+
+            // Add curse names to the afflictions array
+            afflictionsArray.AddRange(json["curse"].curse.Select(c => new {
+                Name = c.name,
+                Type = "Curse"
+            }));
+
+            ViewBag.Afflictions = afflictionsArray;
+
+            Resources.Afflictions.Disease selectedDisease = null;
+            Resources.Afflictions.Curse selectedCurse = null;
+            if (Request.Method == "POST")
+            {
+                var selectedAfflictionName = Request.Form["afflictionDropdown"];
+                selectedDisease = json["disease"].disease.FirstOrDefault(d => d.name == selectedAfflictionName);
+                selectedCurse = json["curse"].curse.FirstOrDefault(c => c.name == selectedAfflictionName);
+            }
+            return View("~/Views/Home/Resources/Afflictions.cshtml", (selectedDisease, selectedCurse));
+        }
         public IActionResult DiceRoller()
         {
             return View("~/Views/Home/Resources/DiceRoller.cshtml");
