@@ -1,0 +1,757 @@
+{
+	"disease": [
+		{
+			"name": "Waterborne Zombie Rot",
+			"source": "BotD",
+			"page": 197,
+			"type": "Disease",
+			"level": 1,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"Typically carried by plague zombies, this version of the disease is found in water supplies tainted by a zombie corpse.",
+				{
+					"type": "affliction",
+					"savingThrow": "Fortitude",
+					"DC": 16,
+					"onset": "1 hour",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "carrier with no ill effect",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@damage 1d6} negative damage",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@damage 1d6} negative damage",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "{@damage 1d6} negative damage",
+							"duration": "1 day"
+						},
+						{
+							"stage": 5,
+							"entry": "dead, rising as a {@creature plague zombie} immediately. An infected creature can't heal damage it takes from zombie rot until it has been cured of the disease."
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Poison Sedum",
+			"source": "OoA1",
+			"page": 31,
+			"type": "Disease",
+			"traits": [
+				"rare",
+				"contact",
+				"environmental",
+				"poison"
+			],
+			"entries": [
+				"This green-and-blue stalk is topped with a clump of small flowers resembling broccoli. It's covered in a mildly toxic resin that sticks to flesh, fur, and equipment alike, causing affected creatures to break out in an itchy rash.",
+				{
+					"type": "affliction",
+					"DC": 16,
+					"savingThrow": "Fortitude",
+					"onset": "1 day",
+					"maxDuration": "2 weeks",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition sickened||sickened 1}, and the {@condition sickened} condition can't go below 1",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "as stage 1, but also {@condition clumsy||clumsy 1}",
+							"duration": "1 day"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Blinding Sickness",
+			"source": "GMG",
+			"page": 119,
+			"type": "Disease",
+			"level": 7,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"Endemic to jungles of the Mwangi Expanse, blinding sickness is transmitted by dirty water or the bites of certain creatures.",
+				{
+					"type": "affliction",
+					"DC": 23,
+					"savingThrow": "Fortitude",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "carrier with no effects",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition enfeebled|| enfeebled 1}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition enfeebled|| enfeebled 2}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "{@condition enfeebled|| enfeebled 2} and permanently blinded",
+							"duration": "1 day"
+						},
+						{
+							"stage": 5,
+							"entry": "{@condition enfeebled|| enfeebled 4}"
+						},
+						{
+							"stage": 6,
+							"entry": "death"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bog Rot",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 0,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"Sometimes called bog foot, bog rot is caused by having waterlogged feet for an extended period of time. In addition to the usual cures for an affliction, bog rot can be cured through amputation of the affected appendages.",
+				{
+					"type": "affliction",
+					"DC": 13,
+					"savingThrow": "Fortitude",
+					"onset": "1 day",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition clumsy||clumsy 1}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition clumsy||clumsy 1} and a \u20135-foot status penalty to Speed",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition clumsy||clumsy 2} and a \u201310-foot status penalty to Speed",
+							"duration": "1 day"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bone Chill",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 5,
+			"traits": [
+				"disease",
+				"necromancy",
+				"primal"
+			],
+			"entries": [
+				"If you are wounded and exposed to persistent cold, you might contract bonechill.",
+				{
+					"type": "affliction",
+					"DC": 20,
+					"savingThrow": "Fortitude",
+					"onset": "1 day",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition clumsy|| clumsy 1}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition clumsy|| clumsy 2} and can't heal cold damage until this disease is cured",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition clumsy|| clumsy 3} and all cold temperature effects are one step more severe for the victim ({@book {@i Core Rulebook} 517|CRB|10|Temperature})",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "{@condition paralyzed} and all cold temperature effects are one step more severe for the victim",
+							"duration": "1 day"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Brain Worms",
+			"source": "GMG",
+			"page": 119,
+			"type": "Disease",
+			"level": 11,
+			"traits": [
+				"disease",
+				"virulent"
+			],
+			"entries": [
+				"Scholars suspect these brain parasites have an otherworldly or extraplanar origin. Though transmitted by the bites of infected targets, the disease remains relatively rare\u2014most hosts are killed by the effects before they can pass it on. While infected, whenever you attack due to confusion, you bite your target (if you don't have a jaws or fangs attack, you deal piercing damage as an unarmed attack with damage equal to your lowest unarmed attack).",
+				{
+					"type": "affliction",
+					"DC": 28,
+					"savingThrow": "Fortitude",
+					"onset": "1 day",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition stupefied||stupefied 2}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition stupefied||stupefied 2}, and whenever you take damage, you must succeed at a Will save against the disease's DC or become {@condition confused} for 1 round",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition stupefied||stupefied 3}, and whenever you take damage, you must succeed at a Will save against the disease's DC or become {@condition confused} for 1 minute",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "{@condition stupefied||stupefied 4} and {@condition confused}, damage does not end the confused condition",
+							"duration": "1 day"
+						},
+						{
+							"stage": 5,
+							"entry": "{@condition unconscious}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 6,
+							"entry": "death"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bubonic Plague",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 3,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"This widespread illness can sweep through entire communities, leaving few unaffected. The first indication of the disease is a telltale swelling of glands. In some cases, the disease can move into your lungs (pneumonic plague) or blood (septicemic plague), which is even more fatal. If you have bubonic plague, you can't remove the fatigued condition while affected.",
+				{
+					"type": "affliction",
+					"DC": 17,
+					"savingThrow": "Fortitude",
+					"onset": "1 day",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition fatigued}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition enfeebled||enfeebled 2} and {@condition fatigued}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition enfeebled||enfeebled 3}, {@condition fatigued}, and take {@dice 1d6} persistent bleed damage every {@dice 1d20} minutes",
+							"duration": "1 day"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Choking Death",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 6,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"This disease is capable of wiping out nations or even entire continents. A few pockets of the disease still remain in Iobaria, keeping that region's population sparse.",
+				{
+					"type": "affliction",
+					"DC": 22,
+					"savingThrow": "Fortitude",
+					"onset": "1 day",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "hoarse voice but no other symptoms",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition drained|| drained 1}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition drained|| drained 2} and can't speak",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "death"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Ghast Fever",
+			"source": "B1",
+			"page": 169,
+			"type": "Disease",
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				{
+					"type": "affliction",
+					"savingThrow": "Fortitude",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "carrier with no ill effect",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@damage 3d8} negative damage and regains half as many Hit Points from all healing",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "as stage 2",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "{@damage 3d8} negative damage and gains no benefit from healing",
+							"duration": "1 day"
+						},
+						{
+							"stage": 5,
+							"entry": "as stage 4",
+							"duration": "1 day"
+						},
+						{
+							"stage": 6,
+							"entry": "dead, and rises as a {@creature ghast|b1} the next midnight"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Ghoul Fever",
+			"source": "B1",
+			"page": 168,
+			"type": "Disease",
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				{
+					"type": "affliction",
+					"savingThrow": "Fortitude",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "carrier with no ill effect",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@damage 2d6} negative damage and regains half as many Hit Points from all healing",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "as stage 2",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "{@damage 2d6} negative damage and gains no benefit from healing",
+							"duration": "1 day"
+						},
+						{
+							"stage": 5,
+							"entry": "as stage 4",
+							"duration": "1 day"
+						},
+						{
+							"stage": 6,
+							"entry": "dead, and rises as a {@creature ghoul|b1} the next midnight"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Malaria",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 2,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"A pernicious disease spread by bloodsucking insects, malaria sometimes enters long periods of dormancy. If you succumb to malaria, you may continue to be periodically affected by the disease, even if you're cured. You can't reduce your sickened condition while affected with malaria.",
+				{
+					"type": "affliction",
+					"DC": 16,
+					"savingThrow": "Fortitude",
+					"onset": "10 days",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition sickened||sickened 1}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition sickened||sickened 2}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition sickened||sickened 2}, and disease recurs every {@dice 1d4} months even if cured",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "unconscious",
+							"duration": "1 day"
+						},
+						{
+							"stage": 5,
+							"entry": "death"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Nightmare Fever",
+			"source": "GMG",
+			"page": 119,
+			"type": "Disease",
+			"level": 8,
+			"traits": [
+				"disease",
+				"necromancy",
+				"occult"
+			],
+			"entries": [
+				"Thought to be caused by a night hag's curse, nightmare fever inflicts you with terrible nightmares, and you awaken with the wounds you received in your dreams. Some versions cause you to dream of being wounded by bludgeoning or piercing weapons, in which case you take that type of damage instead. Damage and the fatigued condition caused by the disease can't be healed until the disease is removed.",
+				{
+					"type": "affliction",
+					"DC": 25,
+					"savingThrow": "Will",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@dice 2d6} slashing damage and {@condition fatigued}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@dice 4d6} slashing damage and {@condition fatigued}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@dice 4d6} slashing damage, {@condition fatigued}, and whenever you take slashing damage, you must succeed at a Will save against the disease's DC or become {@condition frightened||frightened 2}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "{@dice 6d6} slashing damage, {@condition fatigued}, and whenever you take slashing damage, you must succeed at a Will save against the disease's DC or become {@condition paralyzed}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 5,
+							"entry": "{@dice 6d6} slashing damage and {@condition unconscious}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Scarlet Fever",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 1,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"The relatively simple sore throat caused by this disease leads many victims to initially dismiss it as a mild illness, but scarlet fever can be deadly if left untreated. You can't reduce your sickened condition while affected with scarlet fever.",
+				{
+					"type": "affliction",
+					"DC": 13,
+					"savingThrow": "Fortitude",
+					"onset": "2 days",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition sickened||sickened 1}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition sickened||sickened 2}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition sickened||sickened 3} and can't speak",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "death"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Scarlet Leprosy",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 4,
+			"traits": [
+				"disease",
+				"virulent"
+			],
+			"entries": [
+				"Scarlet leprosy is widely feared for its devastating effects, crushing bones and organs while making recovery nearly impossible. Damage taken from scarlet leprosy can't be healed until the disease is cured.",
+				{
+					"type": "affliction",
+					"DC": 19,
+					"savingThrow": "Fortitude",
+					"onset": "1 day",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@dice 2d6} bludgeoning damage",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@dice 2d6} bludgeoning damage, and whenever you gain the {@condition wounded} condition, increase the condition value by 1",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@dice 4d6} bludgeoning damage and can't heal any Hit Point damage",
+							"duration": "1 day"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Sewer Haze",
+			"source": "GMG",
+			"page": 119,
+			"type": "Disease",
+			"level": 7,
+			"traits": [
+				"disease",
+				"virulent"
+			],
+			"entries": [
+				"Many healers and alchemists suspect that sewer haze has a supernatural origin, given its association with particularly strong otyughs.",
+				{
+					"type": "affliction",
+					"DC": 23,
+					"savingThrow": "Fortitude",
+					"onset": "2 days",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition stupefied|| stupefied 2}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition drained|| drained 2} and {@condition stupefied|| stupefied 2}",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition drained|| drained 3} and {@condition stupefied|| stupefied 3}",
+							"duration": "1 day"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Soulforged Corruption",
+			"source": "SoM",
+			"page": 234,
+			"type": "Curse",
+			"traits": [
+				"curse",
+				"divine",
+				"enchantment"
+			],
+			"entries": [
+				"A successful {@spell remove curse} spell, rather than ending this curse, reduces its stage by 1 (to a minimum of stage 1).",
+				{
+					"type": "affliction",
+					"level": "your level",
+					"savingThrow": "Will",
+					"DC": "save against a {@table DC Adjustments||very hard} {@table DCs by Level||DC of the curse's level}",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "You suffer the effects of your armament's corruption flaw. If you try to manifest the armament's essence form, you must attempt a DC {@flatDC 5} flat check. If you fail, only the normal form manifests, and you can't try to manifest that armament's essence form again that day",
+							"duration": "1 day"
+						},
+						{
+							"stage": 2,
+							"entry": "You suffer the effects of your armament's corruption flaw, and any attempt to activate the armament's essence form fails",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "You permanently destroy your soulforged armament. You can't have a new soulforged armament until you remove the curse entirely with the {@ritual purify soul path|SoM} ritual",
+							"duration": "1 day"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Tetanus",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 1,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"An infection introduced through open wounds, tetanus can produce stiffness, muscle spasms strong enough to break bones, and ultimately death.",
+				{
+					"type": "affliction",
+					"DC": 14,
+					"savingThrow": "Fortitude",
+					"onset": "10 days",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "{@condition clumsy||clumsy 1}",
+							"duration": "1 week"
+						},
+						{
+							"stage": 2,
+							"entry": "{@condition clumsy||clumsy 2} and can't speak",
+							"duration": "1 day"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition paralyzed} with spasms",
+							"duration": "1 day"
+						},
+						{
+							"stage": 4,
+							"entry": "death"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Tuberculosis",
+			"source": "GMG",
+			"page": 118,
+			"type": "Disease",
+			"level": 1,
+			"traits": [
+				"disease"
+			],
+			"entries": [
+				"An extended respiratory disease, tuberculosis can pose particular challenges to spellcasters and some performers due to the intense coughing fits it produces.",
+				{
+					"type": "affliction",
+					"DC": 15,
+					"savingThrow": "Fortitude",
+					"onset": "1 week",
+					"stages": [
+						{
+							"stage": 1,
+							"entry": "carrier with no effects",
+							"duration": "1 week"
+						},
+						{
+							"stage": 2,
+							"entry": "coughing requires you to succeed at a DC {@flatDC 5} flat check to {@action Cast a Spell} with a verbal component or {@action Activate an Item} with a command component",
+							"duration": "1 week"
+						},
+						{
+							"stage": 3,
+							"entry": "{@condition fatigued}, can't recover from the fatigued condition, and coughing requires a successful DC {@flatDC 15} flat check to {@action Cast a Spell} with a verbal component or {@action Activate an Item} with a command component",
+							"duration": "1 week"
+						},
+						{
+							"stage": 4,
+							"entry": "{@condition unconscious}",
+							"duration": "1 week"
+						},
+						{
+							"stage": 5,
+							"entry": "death"
+						}
+					]
+				}
+			]
+		}
+	]
+}
+	

@@ -1,12 +1,101 @@
-﻿@model PathfinderToolkit.Models.Resources.Afflictions
+﻿@model Resources.Afflictions
 
-@*<form method="post">
-    <select id="afflictionDropdown" name="afflictionDropdown">
-        <option value="">Select an affliction</option>
-        @foreach (var affliction in ((IEnumerable<SelectListItem>)ViewBag.Affliction ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
+<h1>Afflictions</h1>
+
+<form method="post">
+    <select id="curseDropdown" name="curseDropdown">
+        <option value="">Select a Curse</option>
+        @foreach (var curse in ((IEnumerable<SelectListItem>)Model.CurseList ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
         {
-            <option value="@affliction.Value">@affliction.Text</option>
+                <option value="@curse.Value">@curse.Text</option>
         }
     </select>
     <button type="submit">Submit</button>
-</form>*@
+</form>
+
+<form method="post">
+    <select id="diseaseDropdown" name="diseaseDropdown">
+        <option value="">Select a Disease</option>
+        @foreach (var disease in ((IEnumerable<SelectListItem>)Model.DiseaseList ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
+        {
+            <option value="@disease.Value">@disease.Text</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.SelectedCurse))
+{
+    <h2>Selected Curse: @Model.SelectedCurse</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Source</th>
+                <th>Page</th>
+                <th>Type</th>
+                <th>Level</th>
+                <th>Traits</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var curse in Model.CurseData)
+            {
+                <tr>
+                    <td>@curse.name</td>
+                    <td>@curse.source</td>
+                    <td>@curse.page</td>
+                    <td>@curse.type</td>
+                    <td>@curse.level</td>
+                    <td>@string.Join(", ", curse.traits)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (!string.IsNullOrEmpty(Model.DiseaseList))
+{
+    <h2>Selected Disease: @Model.SelectedDisease</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Source</th>
+                <th>Page</th>
+                <th>Type</th>
+                <th>Level</th>
+                <th>Traits</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var disease in Model.DiseaseList)
+            {
+                <tr>
+                    <td>@adisease.name</td>
+                    <td>@disease.source</td>
+                    <td>@disease.page</td>
+                    <td>@disease.type</td>
+                    <td>@disease.level</td>
+                    <td>@string.Join(", ", disease.traits)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<script>
+    const submitButton = document.querySelector('button[type="submit"]');
+
+    submitButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        const curseDropdown = document.querySelector('#curseDropdown');
+        const diseaseDropdown = document.querySelector('#diseaseDropdown');
+        const selectedCurse = curseDropdown.value;
+        const selectedDisease = diseaseDropdown.value;
+        console.log(selectedCurse);
+        console.log(selectedDisease);
+        // You can use AJAX to send the selected value to the server and retrieve the data to display in a table.
+    });
+</script>

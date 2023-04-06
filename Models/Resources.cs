@@ -10,6 +10,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 using Google.Apis.Drive.v3.Data;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using static PathfinderToolkit.Models.Resources.Afflictions;
 
 namespace PathfinderToolkit.Models;
 
@@ -32,8 +33,8 @@ public class Resources
     {
         public List<Ability> ability { get; set; }
         public List<Actions> action { get; set; }
-        public List<Afflictions.Curse> curse { get; set; }
-        public List<Afflictions.Disease> disease { get; set; }
+        public List<Disease> disease { get; set; }
+        public List<Curse> curse { get; set; }
     }
     public class Actions
     {
@@ -77,8 +78,9 @@ public class Resources
 
     public class Afflictions
     {
-        public List<Disease> disease { get; set; }
-        public List<Curse> curse { get; set; }
+        public List<SelectListItem> CurseList { get; set; }
+        public List<SelectListItem> DiseaseList { get; set; }
+
         public class Curse
         {
             public string name { get; set; }

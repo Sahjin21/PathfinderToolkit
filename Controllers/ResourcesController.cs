@@ -8,6 +8,8 @@ using static PathfinderToolkit.Models.Resources;
 using static PathfinderToolkit.Models.JsonReader;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using static PathfinderToolkit.Models.Resources.Root;
+using static PathfinderToolkit.Models.Resources.Afflictions;
 using static PathfinderToolkit.Models.Resources.Creature;
 using static PathfinderToolkit.Models.Resources.BestiaryViewModel;
 using Newtonsoft.Json.Linq;
@@ -84,38 +86,61 @@ namespace PathfinderToolkit.Controllers
             var selectedAction = actionList.FirstOrDefault(a => a.name == actionDropdown);
             return View("~/Views/Home/Resources/Actions.cshtml", selectedAction);
         }
+        
+        [HttpGet]
         public IActionResult Afflictions()
         {
-            string jsonFilePath = "wwwroot/Data/Json PF/afflictions.json";
-            string jsonString = System.IO.File.ReadAllText(jsonFilePath);
-            var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, Resources.Afflictions>>(jsonString);
+            var model = new Afflictions();
+            string curseFilePath = "wwwroot/Data/Json PF/curse.json";
+            string diseaseFilePath = "wwwroot/Data/Json PF/disease.json";
+            string curseJsonString = System.IO.File.ReadAllText(curseFilePath);
+            string diseaseJsonString = System.IO.File.ReadAllText(diseaseFilePath);
 
-            // Create an array to hold the afflictions data
-            var afflictionsArray = new List<object>();
+            var cJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Curse>>>(curseJsonString);
+            var dJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Disease>>>(diseaseJsonString);
 
-            // Add disease names to the afflictions array
-            afflictionsArray.AddRange(json["disease"].disease.Select(d => new {
-                Name = d.name,
-                Type = "Disease"
-            }));
-
-            // Add curse names to the afflictions array
-            afflictionsArray.AddRange(json["curse"].curse.Select(c => new {
-                Name = c.name,
-                Type = "Curse"
-            }));
-
-            ViewBag.Afflictions = afflictionsArray;
-
-            Resources.Afflictions.Disease selectedDisease = null;
-            Resources.Afflictions.Curse selectedCurse = null;
-            if (Request.Method == "POST")
+            // Populate CurseList
+            model.CurseList = new List<SelectListItem>();
+            foreach (var c in cJson["curse"])
             {
-                var selectedAfflictionName = Request.Form["afflictionDropdown"];
-                selectedDisease = json["disease"].disease.FirstOrDefault(d => d.name == selectedAfflictionName);
-                selectedCurse = json["curse"].curse.FirstOrDefault(c => c.name == selectedAfflictionName);
+                model.CurseList.Add(new SelectListItem { Value = c.name, Text = c.name });
             }
-            return View("~/Views/Home/Resources/Afflictions.cshtml", (selectedDisease, selectedCurse));
+
+            // Populate DiseaseList
+            model.DiseaseList = new List<SelectListItem>();
+            foreach (var d in dJson["disease"])
+            {
+                model.DiseaseList.Add(new SelectListItem { Value = d.name, Text = d.name });
+            }
+
+            return View("~/Views/Home/Resources/Afflictions.cshtml", model);
+        }
+        [HttpPost]
+        public IActionResult Afflictions(Afflictions model, string curseDropDown, string diseaseDropDown)
+        {
+            if (!string.IsNullOrEmpty(curseDropDown))
+            {
+                //Readpath curseDropdown and deserialize selected json file
+                string jsonFilePath = "wwwroot/Data/Json PF/curse.json";
+                string jsonString = System.IO.File.ReadAllText(jsonFilePath);
+                var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Curse>>>(jsonString);
+                var curseList = json["curse"].ToArray();
+                model.CurseList = curseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+                var selectedCurse = curseList.FirstOrDefault(a => a.name == curseDropDown);
+            }
+
+            if (!string.IsNullOrEmpty(diseaseDropDown))
+            {
+                //Readpath diseaseDropdown and deserialize selected json file
+                string jsonFilePath = "wwwroot/Data/Json PF/disease.json";
+                string jsonString = System.IO.File.ReadAllText(jsonFilePath);
+                var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Disease>>>(jsonString);
+                var diseaseList = json["disease"].ToArray();
+                model.DiseaseList = diseaseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+                var selectedDisease = diseaseList.FirstOrDefault(a => a.name == diseaseDropDown);
+            }
+
+            return View("~/Views/Home/Resources/Afflictions.cshtml", model);
         }
         public IActionResult DiceRoller()
         {
