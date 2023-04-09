@@ -24,7 +24,7 @@
     <button type="submit">Submit</button>
 </form>
 
-@if (!string.IsNullOrEmpty(Model.SelectedCurse))
+@*@if (!string.IsNullOrEmpty(Model.SelectedCurse))
 {
     <h2>Selected Curse: @Model.SelectedCurse</h2>
     <table>
@@ -83,7 +83,7 @@
         </tbody>
     </table>
 }
-
+*@
 
 <script>
     const submitButton = document.querySelector('button[type="submit"]');
