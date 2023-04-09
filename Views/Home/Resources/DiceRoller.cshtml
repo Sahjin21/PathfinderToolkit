@@ -4,10 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/diceRoller.css" />
     <title>Document</title>
 </head>
-<body>
-    <div class="roll_container">check</div>
-    <div class="roll_container">check</div>
+<body >
+    <main class="diceBody">
+        <div class="roll_container">
+            <div class="rollLabel">Dice to Roll</div>
+           
+        </div>
+        <div class="roll_container currentRoll">
+            <div class="rollLabel">Current Roll</div>
+        </div>
+        <div class="roll_container pastRoll">
+            <div class="rollLabel">Roll History</div>
+        </div>
+        <script type="text/javascript" src="~/js/DiceRoller/dice.js"></script>
+        <script type="text/javascript" src="~/js/DiceRoller/diceBox.js"></script>
+        <script type="text/javascript" src="~/js/site.js"></script>
+    </main>
 </body>
 </html>
