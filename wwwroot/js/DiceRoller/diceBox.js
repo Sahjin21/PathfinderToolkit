@@ -15,11 +15,6 @@ class DiceBox {
         return this.diceList
     }
 
-    roll(dice) {
-        console.log(dice, dice.reduce((acc, cv) => acc + (Number(cv.name) * Number(cv.count)), 0))
-        return dice
-    }
-
     render() {
         const roll_container = document.querySelector(".roll_container")
 
