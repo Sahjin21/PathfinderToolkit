@@ -77,5 +77,20 @@ class DiceBox {
         atkContainer.append(atkModLabel, atkMod)
         rollButtonContainer.append(hitContainer, rollButton, atkContainer)
         roll_container.append(rollButtonContainer)
+
+        const rollNameContainer = document.createElement("div")
+        rollNameContainer.classList = "rollNameContainer"
+
+        const rollNameLabel = document.createElement("div")
+        rollNameLabel.classList = "rollNameLabel"
+        rollNameLabel.textContent = "Roll Name: "
+
+        const rollNameInput = document.createElement("input")
+        rollNameInput.classList = "rollNameInput"
+        rollNameInput.type = "text"
+        rollNameInput.value = "Unnamed"
+
+        rollNameContainer.append(rollNameLabel, rollNameInput)
+        roll_container.append(rollNameContainer)
     }
 }

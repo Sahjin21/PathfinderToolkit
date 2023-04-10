@@ -2,30 +2,54 @@ class Roll {
     constructor(name, dice) {
         this.name = name
         this.dice = dice
+        this.currentRoll = []
+        this.roll()
     }
 
     roll() {
+
+        this.dice.filter(filElement => filElement.count != 0).map(element => {
+            let outcome = Math.ceil(Math.random() * element.name) * element.count
+            this.currentRoll.push({ name: element.name, count: element.count, outcome: outcome })
+        })
+        this.renderRoll()
+    }
+
+    renderRoll() {
         console.log(this.dice)
         const rollName = document.createElement("div")
         rollName.classList = "rollName"
         rollName.textContent = this.name
         document.querySelector(".currRoll").append(rollName)
 
-        this.dice.filter(filElement => filElement.count != 0).map(element => {
-            let outcome = Math.ceil(Math.random() * element.name) * element.count
-            this.render(element.name, element.count, outcome)
-        })
+        const currRollCont = document.createElement("div")
+        currRollCont.classList = "currRollCont"
 
+        const diceImg = document.createElement("div")
+        diceImg.classList = `diceImg`
+        diceImg.textContent = `HIT : ${this.currentRoll[0].outcome}`
+        console.log(this.currentRoll.filter(element => {
+            return element.name != 20
+        }).reduce((acc, cv) => acc + cv.outcome, 0))
+        const x = document.createElement("div")
+        x.classList = 'diceImg'
+        x.textContent = `ATK :  ${this.currentRoll.filter(element => {
+            return element.name != 20
+        }).reduce((acc, cv) => acc + cv.outcome, 0)}`
 
+        currRollCont.append(diceImg, x)
+        document.querySelector(".currRoll").append(currRollCont)
+
+        this.currentRoll.map(element => this.render(element.name, element.count, element.outcome))
     }
 
     render(name, count, outcome) {
         const currRollCont = document.createElement("div")
         currRollCont.classList = "currRollCont"
 
-        const diceImg = document.createElement("input")
+        const diceImg = document.createElement("div")
         diceImg.classList = `diceImg`
-        diceImg.value = `D${name}`
+        diceImg.textContent = `D${name}`
 
         const x = document.createElement("div")
         x.classList = 'currRollText'
