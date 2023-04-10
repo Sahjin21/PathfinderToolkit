@@ -12,18 +12,19 @@ class Roll {
             let outcome = Math.ceil(Math.random() * element.name) * element.count
             this.currentRoll.push({ name: element.name, count: element.count, outcome: outcome })
         })
+
+
         this.renderRoll()
     }
 
     renderRoll() {
         const currRoll = document.querySelector(".currRoll")
+
         if (document.querySelector(".currRollCont")) {
             while (document.querySelector(".currRollCont")) {
                 document.querySelector(".currRollCont").remove();
             }
         }
-
-        console.log(this.dice)
 
         const nameAndRollCont = document.createElement("div")
         nameAndRollCont.classList = "nameAndRollCont"
@@ -31,7 +32,7 @@ class Roll {
         const rollName = document.createElement("div")
         rollName.classList = "rollName currRollCont"
         rollName.textContent = this.name
-        nameAndRollCont.append(rollName)
+
 
         const currRollCont = document.createElement("div")
         currRollCont.classList = "currRollCont"
@@ -39,9 +40,7 @@ class Roll {
         const hitBlockDisplay = document.createElement("div")
         hitBlockDisplay.classList = `HITDiceImg`
         hitBlockDisplay.textContent = `HIT : ${this.currentRoll[0].outcome + Number(document.querySelector(".hitMod").value)}`
-        console.log(this.currentRoll.filter(element => {
-            return element.name != 20
-        }).reduce((acc, cv) => acc + cv.outcome, 0))
+
         const atkBlockDisplay = document.createElement("div")
         atkBlockDisplay.classList = 'ATKDiceImg'
         atkBlockDisplay.textContent = `ATK :  ${this.currentRoll.filter(element => {
@@ -53,6 +52,7 @@ class Roll {
         document.querySelector(".currRoll").append(nameAndRollCont)
 
         this.currentRoll.map(element => this.render(element.name, element.count, element.outcome))
+        return nameAndRollCont
     }
 
     render(name, count, outcome) {
@@ -81,6 +81,6 @@ class Roll {
 
         currRollCont.append(diceImg, x, countText, equals, minusButton)
         document.querySelector(".currRoll").append(currRollCont)
-        return
+        return currRollCont
     }
 }

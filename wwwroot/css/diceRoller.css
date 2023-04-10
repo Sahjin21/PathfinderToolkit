@@ -45,7 +45,7 @@
     color: antiquewhite;
 }
 
-.ATKDiceImg, .HITDiceImg {
+.ATKDiceImg,.HITDiceImg {
     width: 8em;
     margin: 1em;
 }
