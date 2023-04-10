@@ -36,7 +36,7 @@
 }
 
 
-.diceImg, .rollButton {
+.diceImg,.rollButton,.ATKDiceImg,.HITDiceImg {
     background-color: #34273d;
     width: 5em;
     margin: 0 1em;
@@ -45,10 +45,19 @@
     color: antiquewhite;
 }
 
+.ATKDiceImg, .HITDiceImg {
+    width: 8em;
+    margin: 1em;
+}
+
 .dicetext, .hitMod, .atkMod {
     text-align: right;
     margin: 1em 0;
     width: 3em;
+}
+
+.hitMod, .atkMod {
+    margin: 1em ;
 }
 
 .hitContainer {
@@ -57,14 +66,24 @@
 
 .currRollCont {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    padding:.5em;
 }
 
-.rollName, .currRollText {
+.rollName {
     display: flex;
+    justify-content: flex-start;
     text-align: left;
     width: 100%;
     padding: .5em;
     margin-left: 1em;
+}
+
+.currRollText {
+    display: flex;
+    text-align: left;
+    width: 2em;
+    padding: .5em;
+    margin-left: .5em;
 }

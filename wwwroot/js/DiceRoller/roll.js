@@ -16,29 +16,41 @@ class Roll {
     }
 
     renderRoll() {
+        const currRoll = document.querySelector(".currRoll")
+        if (document.querySelector(".currRollCont")) {
+            while (document.querySelector(".currRollCont")) {
+                document.querySelector(".currRollCont").remove();
+            }
+        }
+
         console.log(this.dice)
+
+        const nameAndRollCont = document.createElement("div")
+        nameAndRollCont.classList = "nameAndRollCont"
+
         const rollName = document.createElement("div")
-        rollName.classList = "rollName"
+        rollName.classList = "rollName currRollCont"
         rollName.textContent = this.name
-        document.querySelector(".currRoll").append(rollName)
+        nameAndRollCont.append(rollName)
 
         const currRollCont = document.createElement("div")
         currRollCont.classList = "currRollCont"
 
-        const diceImg = document.createElement("div")
-        diceImg.classList = `diceImg`
-        diceImg.textContent = `HIT : ${this.currentRoll[0].outcome}`
+        const hitBlockDisplay = document.createElement("div")
+        hitBlockDisplay.classList = `HITDiceImg`
+        hitBlockDisplay.textContent = `HIT : ${this.currentRoll[0].outcome + Number(document.querySelector(".hitMod").value)}`
         console.log(this.currentRoll.filter(element => {
             return element.name != 20
         }).reduce((acc, cv) => acc + cv.outcome, 0))
-        const x = document.createElement("div")
-        x.classList = 'diceImg'
-        x.textContent = `ATK :  ${this.currentRoll.filter(element => {
+        const atkBlockDisplay = document.createElement("div")
+        atkBlockDisplay.classList = 'ATKDiceImg'
+        atkBlockDisplay.textContent = `ATK :  ${this.currentRoll.filter(element => {
             return element.name != 20
-        }).reduce((acc, cv) => acc + cv.outcome, 0)}`
+        }).reduce((acc, cv) => acc + cv.outcome, 0) + Number(document.querySelector(".atkMod").value)}`
 
-        currRollCont.append(diceImg, x)
-        document.querySelector(".currRoll").append(currRollCont)
+        currRollCont.append(hitBlockDisplay, atkBlockDisplay)
+        nameAndRollCont.append(rollName, currRollCont)
+        document.querySelector(".currRoll").append(nameAndRollCont)
 
         this.currentRoll.map(element => this.render(element.name, element.count, element.outcome))
     }
