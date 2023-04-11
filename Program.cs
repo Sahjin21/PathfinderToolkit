@@ -1,3 +1,9 @@
+using Microsoft.Azure.Management.CosmosDB.Fluent;
+using Microsoft.Azure.Management.ResourceManager.Fluent;
+using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
+using System;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
