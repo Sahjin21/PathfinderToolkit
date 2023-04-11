@@ -249,7 +249,7 @@ public class Resources
 
     //This will be deleted after identifying any properties I may want in the Creature class
     /*public class Bestiary
-    {
+    {//
         public class Abilities
         {
             public List<Mid> mid { get; set; }
