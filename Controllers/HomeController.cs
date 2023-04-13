@@ -20,14 +20,8 @@ namespace PathfinderToolkit.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string username, string password)
         {
-            string apiKey = "AIzaSyCHi8gEmP4ndvTFM6BmSIIWfhCwbrH0LTw";
-            var service = new DriveService(new BaseClientService.Initializer()
-            {
-                ApiKey = apiKey,
-                ApplicationName = "PathfinderToolkit",
-            });
             return View();
         }
         public IActionResult GM()

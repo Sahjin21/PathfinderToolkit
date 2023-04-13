@@ -7,19 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <title>My Page</title>
-    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer
-            data-clientid="AIzaSyCHi8gEmP4ndvTFM6BmSIIWfhCwbrH0LTw.apps.googleusercontent.com"
-            data-cookiepolicy="single_host_origin"
-            data-requestvisibleactions="http://schema.org/AddAction"
-            data-scope="https://www.googleapis.com/auth/userinfo.email"></script>
-    <script>
-        function onSignIn(googleUser) {
-            // Get the user's ID token and send it to your server for authentication.
-            var id_token = googleUser.getAuthResponse().id_token;
-            // Send the token to your server using an AJAX request or a form submit.
-            // ...
-        }
-    </script>
+
     <link rel="stylesheet" href="~/css/home.css" />
 </head>
 <body>
@@ -32,4 +20,11 @@
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <script type="text/javascript" src="~/js/homePage/home.js"></script>
 </body>
+<div class="loginContainer">
+<input type="text" name="username" placeholder="Username">
+<br>
+<input type="password" name="password" placeholder="Password">
+<br>
+    <button type="submit">Login</button>
+</div>
 </html>
