@@ -6,9 +6,10 @@
     <input type="hidden" name="SelectedCurseName" value="@Model.SelectedCurse" />
     <select id="curseDropdown" name="curseDropdown">
         <option value="">Select a Curse</option>
-            @foreach (var curse in ((IEnumerable<SelectListItem>)ViewBag.CurseList ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
+
+        @foreach (var curse in ViewBag.CurseList ?? Enumerable.Empty<SelectListItem>())
         {
-                <option value="@curse.Value">@curse.Text</option>
+            <option value="@curse.Value">@curse.Text</option>
         }
     </select>
     <button type="submit">Submit</button>
@@ -18,7 +19,7 @@
     <input type="hidden" name="SelectedDiseaseName" value="@Model.SelectedDisease" />
     <select id="diseaseDropdown" name="diseaseDropdown">
         <option value="">Select a Disease</option>
-        @foreach (var disease in ((IEnumerable<SelectListItem>)Model.DiseaseList ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
+        @foreach (var disease in ViewBag.DiseaseList ?? Enumerable.Empty<SelectListItem>())
         {
             <option value="@disease.Value">@disease.Text</option>
         }
@@ -28,7 +29,7 @@
 
 @if (Model.SelectedCurse != null)
 {
-    <h2>Selected Curse: @Model.SelectedCurse</h2>
+    <h2>Selected Curse: @Model.SelectedCurse.name</h2>
     <table>
         <thead>
             <tr>
@@ -57,7 +58,7 @@
 
 @if (Model.SelectedDisease != null)
 {
-    <h2>Selected Disease: @Model.SelectedDisease</h2>
+    <h2>Selected Disease: @Model.SelectedDisease.name</h2>
     <table>
         <thead>
             <tr>

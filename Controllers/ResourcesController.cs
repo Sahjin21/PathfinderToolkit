@@ -90,31 +90,25 @@ namespace PathfinderToolkit.Controllers
         [HttpGet]
         public IActionResult Afflictions()
         {
+            // Retrieve list of curses and diseases and add them to the ViewBag
+            string curseJsonFilePath = "wwwroot/Data/Json PF/curse.json";
+            string diseaseJsonFilePath = "wwwroot/Data/Json PF/disease.json";
+            string curseJsonString = System.IO.File.ReadAllText(curseJsonFilePath);
+            string diseaseJsonString = System.IO.File.ReadAllText(diseaseJsonFilePath);
+            var curseJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Curse>>>(curseJsonString);
+            var diseaseJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Disease>>>(diseaseJsonString);
+            var curseList = curseJson["curse"].ToArray();
+            var diseaseList = diseaseJson["disease"].ToArray();
+            ViewBag.CurseList = curseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+            ViewBag.DiseaseList = diseaseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+
+            // Create a new instance of the Afflictions model and populate it with the disease list
             var model = new Afflictions();
-            string curseFilePath = "wwwroot/Data/Json PF/curse.json";
-            string diseaseFilePath = "wwwroot/Data/Json PF/disease.json";
-            string curseJsonString = System.IO.File.ReadAllText(curseFilePath);
-            string diseaseJsonString = System.IO.File.ReadAllText(diseaseFilePath);
-
-            var cJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Curse>>>(curseJsonString);
-            var dJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Disease>>>(diseaseJsonString);
-
-            // Populate CurseList
-            model.CurseList = new List<SelectListItem>();
-            foreach (var c in cJson["curse"])
-            {
-                model.CurseList.Add(new SelectListItem { Value = c.name, Text = c.name });
-            }
-
-            // Populate DiseaseList
             model.DiseaseList = new List<SelectListItem>();
-            foreach (var d in dJson["disease"])
+            foreach (var d in diseaseJson["disease"])
             {
                 model.DiseaseList.Add(new SelectListItem { Value = d.name, Text = d.name });
             }
-
-            ViewBag.CurseList = model.CurseList;
-            ViewBag.DiseaseList = model.DiseaseList;
 
             return View("~/Views/Home/Resources/Afflictions.cshtml", model);
         }
@@ -131,6 +125,7 @@ namespace PathfinderToolkit.Controllers
                 ViewBag.CurseList = curseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
                 var selectedCurse = curseList.FirstOrDefault(a => a.name == curseDropDown);
                 model.SelectedCurse = selectedCurse;
+
             }
 
             if (!string.IsNullOrEmpty(diseaseDropDown))
