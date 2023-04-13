@@ -16,6 +16,7 @@ namespace PathfinderToolkit.Models;
 
 public class Resources
 {
+
     public class Ability
     {
         public string name { get; set; }
