@@ -3,9 +3,10 @@
 <h1>Afflictions</h1>
 
 <form method="post">
+    <input type="hidden" name="SelectedCurseName" value="@Model.SelectedCurse" />
     <select id="curseDropdown" name="curseDropdown">
         <option value="">Select a Curse</option>
-        @foreach (var curse in ((IEnumerable<SelectListItem>)Model.CurseList ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
+            @foreach (var curse in ((IEnumerable<SelectListItem>)ViewBag.CurseList ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
         {
                 <option value="@curse.Value">@curse.Text</option>
         }
@@ -14,6 +15,7 @@
 </form>
 
 <form method="post">
+    <input type="hidden" name="SelectedDiseaseName" value="@Model.SelectedDisease" />
     <select id="diseaseDropdown" name="diseaseDropdown">
         <option value="">Select a Disease</option>
         @foreach (var disease in ((IEnumerable<SelectListItem>)Model.DiseaseList ?? Enumerable.Empty<SelectListItem>()).OrderBy(a => a.Text))
@@ -24,7 +26,7 @@
     <button type="submit">Submit</button>
 </form>
 
-@*@if (!string.IsNullOrEmpty(Model.SelectedCurse))
+@if (Model.SelectedCurse != null)
 {
     <h2>Selected Curse: @Model.SelectedCurse</h2>
     <table>
@@ -39,22 +41,21 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var curse in Model.CurseData)
-            {
                 <tr>
-                    <td>@curse.name</td>
-                    <td>@curse.source</td>
-                    <td>@curse.page</td>
-                    <td>@curse.type</td>
-                    <td>@curse.level</td>
-                    <td>@string.Join(", ", curse.traits)</td>
+                <td>@Model.SelectedCurse.name</td>
+                <td>@Model.SelectedCurse.source?.ToString()</td>
+                <td>@Model.SelectedCurse.page</td>
+                <td>@Model.SelectedCurse.type?.ToString()</td>
+                <td>@Model.SelectedCurse.level?.ToString()</td>
+                <td>@string.Join(", ", Model.SelectedCurse.traits ?? new List<string>())</td>
                 </tr>
-            }
+
         </tbody>
     </table>
 }
 
-@if (!string.IsNullOrEmpty(Model.DiseaseList))
+
+@if (Model.SelectedDisease != null)
 {
     <h2>Selected Disease: @Model.SelectedDisease</h2>
     <table>
@@ -69,33 +70,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var disease in Model.DiseaseList)
-            {
-                <tr>
-                    <td>@adisease.name</td>
-                    <td>@disease.source</td>
-                    <td>@disease.page</td>
-                    <td>@disease.type</td>
-                    <td>@disease.level</td>
-                    <td>@string.Join(", ", disease.traits)</td>
-                </tr>
-            }
+            <tr>
+                <td>@Model.SelectedDisease.name</td>
+                <td>@Model.SelectedDisease.source?.ToString()</td>
+                <td>@Model.SelectedDisease.page</td>
+                <td>@Model.SelectedDisease.type?.ToString()</td>
+                <td>@Model.SelectedDisease.level.ToString()</td>
+                <td>@string.Join(", ", Model.SelectedDisease.traits ?? new List<string>())</td>
+            </tr>
+
         </tbody>
     </table>
 }
-*@
-
-<script>
-    const submitButton = document.querySelector('button[type="submit"]');
-
-    submitButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        const curseDropdown = document.querySelector('#curseDropdown');
-        const diseaseDropdown = document.querySelector('#diseaseDropdown');
-        const selectedCurse = curseDropdown.value;
-        const selectedDisease = diseaseDropdown.value;
-        console.log(selectedCurse);
-        console.log(selectedDisease);
-        // You can use AJAX to send the selected value to the server and retrieve the data to display in a table.
-    });
-</script>

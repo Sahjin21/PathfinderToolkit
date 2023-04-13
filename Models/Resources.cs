@@ -80,7 +80,9 @@ public class Resources
     {
         public List<SelectListItem> CurseList { get; set; }
         public List<SelectListItem> DiseaseList { get; set; }
-
+        public Afflictions.Curse SelectedCurse { get; set; }
+        public Afflictions.Disease SelectedDisease { get; set; }
+        public string name { get; set; }
         public class Curse
         {
             public string name { get; set; }

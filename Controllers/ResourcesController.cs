@@ -113,6 +113,9 @@ namespace PathfinderToolkit.Controllers
                 model.DiseaseList.Add(new SelectListItem { Value = d.name, Text = d.name });
             }
 
+            ViewBag.CurseList = model.CurseList;
+            ViewBag.DiseaseList = model.DiseaseList;
+
             return View("~/Views/Home/Resources/Afflictions.cshtml", model);
         }
         [HttpPost]
@@ -125,8 +128,9 @@ namespace PathfinderToolkit.Controllers
                 string jsonString = System.IO.File.ReadAllText(jsonFilePath);
                 var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Curse>>>(jsonString);
                 var curseList = json["curse"].ToArray();
-                model.CurseList = curseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+                ViewBag.CurseList = curseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
                 var selectedCurse = curseList.FirstOrDefault(a => a.name == curseDropDown);
+                model.SelectedCurse = selectedCurse;
             }
 
             if (!string.IsNullOrEmpty(diseaseDropDown))
@@ -136,8 +140,9 @@ namespace PathfinderToolkit.Controllers
                 string jsonString = System.IO.File.ReadAllText(jsonFilePath);
                 var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Resources.Afflictions.Disease>>>(jsonString);
                 var diseaseList = json["disease"].ToArray();
-                model.DiseaseList = diseaseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
+                ViewBag.DiseaseList = diseaseList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
                 var selectedDisease = diseaseList.FirstOrDefault(a => a.name == diseaseDropDown);
+                model.SelectedDisease = selectedDisease;
             }
 
             return View("~/Views/Home/Resources/Afflictions.cshtml", model);
@@ -238,8 +243,6 @@ namespace PathfinderToolkit.Controllers
                 {
                     var creatureList = json["creature"].ToArray();
                     ViewBag.Creature = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
-                   // var selectedCreature = creatureList.FirstOrDefault(a => a.name == model.SelectedCreature?.name) ?? creatureList.FirstOrDefault();
-                    
                 }
                 model.SelectedCreatureName = Request.Form["SelectedCreatureName"];
                 
