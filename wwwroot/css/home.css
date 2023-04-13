@@ -1,0 +1,22 @@
+﻿body {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.announcmentsContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-items: center;
+    border: 1px solid black;
+    background-color: #A1AF9F;
+    border-radius: 15px;
+    color: #395737;
+    border: 2px solid antiquewhite;
+    font-weight: bold;
+}
+
+li {
+    list-style-type: none;
+}
