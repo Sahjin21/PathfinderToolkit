@@ -13,8 +13,14 @@ html {
   min-height: 100%;
 }
 
+header {
+    width:100%;
+}
+
 .robnav {
+    display:felx;
     background-color: #283d27;
+    
 }
 
 .robnav-brand {
@@ -38,12 +44,21 @@ html {
 body {
     margin-bottom: 60px;
     background-color: #395737;
+    display:felx;
+    width:100%;
+    justify-items:left;
+    align-items:center;
+}
+
+main {
+    display: felx;
 }
 
 .ability-table {
+    padding:1em 0;
     color: #e9ffe8;
-    display:flex;
-    justify-content:space-between
+    display: flex;
+    width:5em;
 }
 
 .ability-header {
@@ -54,18 +69,16 @@ body {
 }
 
 .ability-content {
-    padding: .5em;
+    padding: 1em;
 }
 
 .ability-container {
     display: flex;
     flex-direction: column;
-    margin: .5em 0;
     border: 1px solid antiquewhite;
 }
 
 .ability-name {
-    flex-grow:1;
-    flex-basis:auto;
-    width:40%;
+    padding:1em;
+    width:max-content;
 }

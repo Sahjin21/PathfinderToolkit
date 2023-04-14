@@ -30,29 +30,34 @@
 @if (Model.SelectedCurse != null)
 {
     <h2>Selected Curse: @Model.SelectedCurse.name</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Source</th>
-                <th>Page</th>
-                <th>Type</th>
-                <th>Level</th>
-                <th>Traits</th>
-            </tr>
-        </thead>
-        <tbody>
-                <tr>
-                <td>@Model.SelectedCurse.name</td>
-                <td>@Model.SelectedCurse.source?.ToString()</td>
-                <td>@Model.SelectedCurse.page</td>
-                <td>@Model.SelectedCurse.type?.ToString()</td>
-                <td>@Model.SelectedCurse.level?.ToString()</td>
-                <td>@string.Join(", ", Model.SelectedCurse.traits ?? new List<string>())</td>
-                </tr>
-
-        </tbody>
-    </table>
+    <div class="ability-table">
+        <div class="ability-container">
+            <div class="ability-header">Name</div>
+            <div class="ability-content ability-name">@Model.SelectedCurse.name</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Source</div>
+            <div class="ability-content">@Model.SelectedCurse.source?.ToString()</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Page</div>
+            <div class="ability-content">@Model.SelectedCurse.page</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Type</div>
+            <div class="ability-content">@Model.SelectedCurse.type?.ToString()</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Level</div>
+            <div class="ability-content">@Model.SelectedCurse.level?.ToString()</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Traits</div>
+            <div class="ability-content">@string.Join(", ", Model.SelectedCurse.traits ?? new List<string>())</div>
+        </div>
+    </div>
+             
+  
 }
 
 

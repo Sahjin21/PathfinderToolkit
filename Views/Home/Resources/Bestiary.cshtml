@@ -52,29 +52,41 @@ else
 
 @if (Model.SelectedCreature != null)
 {
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Level</th>
-                <th>AC</th>
-                <th>Traits</th>
-                <th>Perception</th>
-                <th>Languages</th>
-                <th>Speed</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@Model.SelectedCreature.name</td>
-                <td>@Model.SelectedCreature.level</td>
-                <td>@Html.DisplayFor(m => m.SelectedCreature.defenses.ac)</td>
-                <td>@Html.Raw(string.Join("<br/>", Model.SelectedCreature.traits))</td>
-                <td>@Html.DisplayFor(m => m.SelectedCreature.perception)</td>
-                <td>@foreach (var language in Model.SelectedCreature.languages.languages)
-    {
-        @language<br>
-    }</td>
+    <div class="ability-table">
+        <div class="ability-container">
+            <div class="ability-header">Name</div>
+            <div class="ability-content ability-name">@Model.SelectedCreature.name</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Level</div>
+            <div class="ability-content">@Model.SelectedCreature.level</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">AC</div>
+            <div class="ability-content">@Html.DisplayFor(m => m.SelectedCreature.defenses.ac)</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Traits</div>
+            <div class="ability-content">@Html.Raw(string.Join("<br/>", Model.SelectedCreature.traits))</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Perception</div>
+            <div class="ability-content">@Html.DisplayFor(m => m.SelectedCreature.perception)</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Languages</div>
+            <div class="ability-content">
+                @foreach (var language in Model.SelectedCreature.languages.languages)
+                {
+                    @language
+
+                    <br>
+                }
+            </div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Speed</div>
+            <div class="ability-content">
                 @if (Model.SelectedCreature.speed.walk != 0)
                 {
                     <td>Walk: @Model.SelectedCreature.speed.walk</td>
@@ -103,9 +115,10 @@ else
                 {
                     <td></td>
                 }
-            </tr>            
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </div>
+           
 }
 
 
