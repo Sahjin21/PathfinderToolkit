@@ -20,6 +20,8 @@ using System;
 using Microsoft.AspNetCore.Http;
 using System.Reflection;
 using System.Text;
+using Microsoft.Extensions.Configuration;
+using System.Data.SqlClient;
 
 namespace PathfinderToolkit.Controllers
 {
@@ -240,9 +242,6 @@ namespace PathfinderToolkit.Controllers
                     ViewBag.Creature = creatureList.Select(a => new SelectListItem { Text = a.name, Value = a.name }).ToList();
                 }
                 model.SelectedCreatureName = Request.Form["SelectedCreatureName"];
-                
-                //this line may be uneccessary
-                //model.Creatures = json["creature"];
                 var selectedCreature = json["creature"].FirstOrDefault(a => a.name == model.SelectedCreatureName);
 
                 if (selectedCreature == null)
@@ -274,8 +273,12 @@ namespace PathfinderToolkit.Controllers
             //System.Diagnostics.Debug.WriteLine("SelectedCreature name: " + model.SelectedCreatureName);
             return View("~/Views/Home/Resources/Bestiary.cshtml", model);
         }
-
-
+        
+        public IActionResult Login()
+        {
+            
+            return View();
+        }
         public IActionResult Index()
         {
             return View();

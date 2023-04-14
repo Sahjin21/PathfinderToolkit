@@ -25,29 +25,43 @@ namespace PathfinderToolkit.Controllers
         }
         public IActionResult Index()
         {
-            /*string connString = _configuration.GetConnectionString("CONNECTIONSTRING");
+            return View();
+        }
 
+        public IActionResult Login()
+        {
+            string connString = _configuration.GetConnectionString("CONNECTIONSTRING");
             try
             {
                 // Table would be created ahead of time in production
                 using var conn = new SqlConnection(connString);
                 conn.Open();
 
-                var command = new SqlCommand(
+                /*var command = new SqlCommand(
                     "CREATE TABLE Persons (ID int NOT NULL PRIMARY KEY IDENTITY, FirstName varchar(255), LastName varchar(255));",
-                    conn);
-                using SqlDataReader reader = command.ExecuteReader();
+                    conn);*/
+                //using SqlDataReader reader = command.ExecuteReader();
             }
             catch (Exception e)
             {
                 // Table may already exist
                 Console.WriteLine(e.Message);
-            }*/
 
+            }
             return View();
         }
 
-    
+        [HttpPost]
+        public IActionResult Login(User user1)
+        {
+            User User = new User();
+            User.Username = user1.Username;
+            User.Password = user1.Password;
+
+            // Redirect to the home page or another appropriate page
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GM()
         {
             return View();

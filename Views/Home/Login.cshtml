@@ -1,0 +1,30 @@
+﻿
+@model PathfinderToolkit.Models.User
+
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+
+<h1>Login</h1>
+
+<form method="post">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="@Model.Username" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" value="@Model.Password" />
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+@if (Model.Username != null && Model.Password != null)
+{
+    // Create a new instance of the User class and save the username and password to it
+    User user = new User();
+    // Save the username and password to the User class here
+    user.Username = Model.Username;
+    user.Password = Model.Password;
+}
