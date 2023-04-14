@@ -89,31 +89,31 @@ else
             <div class="ability-content">
                 @if (Model.SelectedCreature.speed.walk != 0)
                 {
-                    <td>Walk: @Model.SelectedCreature.speed.walk</td>
+                    <div>Walk: @Model.SelectedCreature.speed.walk</div>
                 }
                 @if (Model.SelectedCreature.speed.climb.HasValue)
                 {
-                    <td>Climb: @Model.SelectedCreature.speed.climb</td>
+                    <div>Climb: @Model.SelectedCreature.speed.climb</div>
                 }
                 else
                 {
-                    <td></td>
+                    <div></div>
                 }
                 @if (Model.SelectedCreature.speed.fly.HasValue)
                 {
-                    <td>Fly: @Model.SelectedCreature.speed.fly</td>
+                    <div>Fly: @Model.SelectedCreature.speed.fly</div>
                 }
                 else
                 {
-                    <td></td>
+                    <div></div>
                 }
                 @if (Model.SelectedCreature.speed.swim.HasValue)
                 {
-                    <td>Swim @Model.SelectedCreature.speed.swim</td>
+                    <div>Swim @Model.SelectedCreature.speed.swim</div>
                 }
                 else
                 {
-                    <td></td>
+                    <div></div>
                 }
             </div>
         </div>
