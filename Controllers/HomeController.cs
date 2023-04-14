@@ -8,22 +8,46 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using System.Data.SqlClient;
+using System.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace PathfinderToolkit.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IConfiguration _configuration;
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
-
-        public IActionResult Index(string username, string password)
+        public IActionResult Index()
         {
+            /*string connString = _configuration.GetConnectionString("CONNECTIONSTRING");
+
+            try
+            {
+                // Table would be created ahead of time in production
+                using var conn = new SqlConnection(connString);
+                conn.Open();
+
+                var command = new SqlCommand(
+                    "CREATE TABLE Persons (ID int NOT NULL PRIMARY KEY IDENTITY, FirstName varchar(255), LastName varchar(255));",
+                    conn);
+                using SqlDataReader reader = command.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                // Table may already exist
+                Console.WriteLine(e.Message);
+            }*/
+
             return View();
         }
+
+    
         public IActionResult GM()
         {
             return View();

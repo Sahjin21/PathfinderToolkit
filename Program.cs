@@ -2,12 +2,25 @@ using Microsoft.Azure.Management.CosmosDB.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
 using System;
+using System.Data.SqlClient;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connection = String.Empty;
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddJsonFile("appsettings.Development.json").AddEnvironmentVariables();
+    connection = builder.Configuration.GetConnectionString("CONNECTIONSTRING");
+}
+else
+{
+    connection = Environment.GetEnvironmentVariable("CONNECTIONSTRING");
+}
+
 
 var app = builder.Build();
 
@@ -31,3 +44,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+

@@ -7,15 +7,19 @@
       "sslPort": 44393
     }
   },
+  "environmentVariables": {
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "AZURE_SQL_CONNECTIONSTRING": "Server=tcp:pfserv.database.windows.net,1433;Initial Catalog=pfdb;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=Active Directory Default;"
+  },
   "profiles": {
     "PathfinderToolkit": {
+      "applicationUrl": "https://localhost:7205;http://localhost:5043",
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:7205;http://localhost:5043",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "launchBrowser": true
     },
     "IIS Express": {
       "commandName": "IISExpress",

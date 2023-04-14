@@ -55,11 +55,11 @@ else
     <div class="ability-table">
         <div class="ability-container">
             <div class="ability-header">Name</div>
-            <div class="ability-content ability-name">@Model.SelectedCreature.name ?? ""</div>
+            <div class="ability-content ability-name">@Model.SelectedCreature.name</div>
         </div>
         <div class="ability-container">
             <div class="ability-header">Level</div>
-            <div class="ability-content">@Model.SelectedCreature.level ?? ""</div>
+            <div class="ability-content">@Model.SelectedCreature.level</div>
         </div>
         <div class="ability-container">
             <div class="ability-header">AC</div>
@@ -71,7 +71,7 @@ else
         </div>
         <div class="ability-container">
             <div class="ability-header">Perception</div>
-            <div class="ability-content">@Model.SelectedCreature.perception ?? ""</div>
+            <div class="ability-content">@Html.DisplayFor(m => m.SelectedCreature.perception)</div>
         </div>
         <div class="ability-container">
             <div class="ability-header">Languages</div>
