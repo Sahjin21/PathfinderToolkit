@@ -55,6 +55,89 @@ else
     <div class="ability-table">
         <div class="ability-container">
             <div class="ability-header">Name</div>
+            <div class="ability-content ability-name">@Model.SelectedCreature.name ?? ""</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Level</div>
+            <div class="ability-content">@Model.SelectedCreature.level ?? ""</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">AC</div>
+            <div class="ability-content">@Html.DisplayFor(m => m.SelectedCreature.defenses.ac)</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Traits</div>
+            <div class="ability-content">@Html.Raw(string.Join("<br/>", Model.SelectedCreature.traits ?? new List<string>()))</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Perception</div>
+            <div class="ability-content">@Model.SelectedCreature.perception ?? ""</div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Languages</div>
+            <div class="ability-content">
+                @if (Model.SelectedCreature.languages?.languages != null)
+                {
+                    @foreach (var language in Model.SelectedCreature.languages.languages)
+                    {
+                        @language
+
+                        <br>
+                    }
+                }
+                else
+                {
+                    <div></div>
+                }
+            </div>
+        </div>
+        <div class="ability-container">
+            <div class="ability-header">Speed</div>
+            <div class="ability-content">
+                @if (Model.SelectedCreature.speed != null)
+                {
+                    @if (Model.SelectedCreature.speed.walk != 0)
+                    {
+                        <div>Walk: @Model.SelectedCreature.speed.walk</div>
+                    }
+                    @if (Model.SelectedCreature.speed.climb.HasValue)
+                    {
+                        <div>Climb: @Model.SelectedCreature.speed.climb</div>
+                    }
+                    else
+                    {
+                        <div></div>
+                    }
+                    @if (Model.SelectedCreature.speed.fly.HasValue)
+                    {
+                        <div>Fly: @Model.SelectedCreature.speed.fly</div>
+                    }
+                    else
+                    {
+                        <div></div>
+                    }
+                    @if (Model.SelectedCreature.speed.swim.HasValue)
+                    {
+                        <div>Swim @Model.SelectedCreature.speed.swim</div>
+                    }
+                    else
+                    {
+                        <div></div>
+                    }
+                }
+                else
+                {
+                    <div></div>
+                }
+            </div>
+        </div>
+    </div>
+}
+@*@if (Model.SelectedCreature != null)
+{
+    <div class="ability-table">
+        <div class="ability-container">
+            <div class="ability-header">Name</div>
             <div class="ability-content ability-name">@Model.SelectedCreature.name</div>
         </div>
         <div class="ability-container">
@@ -89,37 +172,37 @@ else
             <div class="ability-content">
                 @if (Model.SelectedCreature.speed.walk != 0)
                 {
-                    <td>Walk: @Model.SelectedCreature.speed.walk</td>
+                    <div>Walk: @Model.SelectedCreature.speed.walk</div>
                 }
                 @if (Model.SelectedCreature.speed.climb.HasValue)
                 {
-                    <td>Climb: @Model.SelectedCreature.speed.climb</td>
+                    <div>Climb: @Model.SelectedCreature.speed.climb</div>
                 }
                 else
                 {
-                    <td></td>
+                    <div></div>
                 }
                 @if (Model.SelectedCreature.speed.fly.HasValue)
                 {
-                    <td>Fly: @Model.SelectedCreature.speed.fly</td>
+                    <div>Fly: @Model.SelectedCreature.speed.fly</div>
                 }
                 else
                 {
-                    <td></td>
+                    <div></div>
                 }
                 @if (Model.SelectedCreature.speed.swim.HasValue)
                 {
-                    <td>Swim @Model.SelectedCreature.speed.swim</td>
+                    <div>Swim @Model.SelectedCreature.speed.swim</div>
                 }
                 else
                 {
-                    <td></td>
+                    <div></div>
                 }
             </div>
         </div>
     </div>
            
-}
+}*@
 
 
 @section Scripts{
