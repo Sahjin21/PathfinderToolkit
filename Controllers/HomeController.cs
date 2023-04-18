@@ -11,6 +11,7 @@ using Google.Apis.Util.Store;
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Extensions.Configuration;
+using static PathfinderToolkit.Models.Resources;
 
 namespace PathfinderToolkit.Controllers
 {
@@ -30,38 +31,102 @@ namespace PathfinderToolkit.Controllers
 
         public IActionResult Login()
         {
-            string connString = _configuration.GetConnectionString("CONNECTIONSTRING");
-            try
-            {
-                // Table would be created ahead of time in production
-                using var conn = new SqlConnection(connString);
-                conn.Open();
-
-                /*var command = new SqlCommand(
-                    "CREATE TABLE Persons (ID int NOT NULL PRIMARY KEY IDENTITY, FirstName varchar(255), LastName varchar(255));",
-                    conn);*/
-                //using SqlDataReader reader = command.ExecuteReader();
-            }
-            catch (Exception e)
-            {
-                // Table may already exist
-                Console.WriteLine(e.Message);
-
-            }
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Login(User user1)
+/*        [HttpPost]
+        public IActionResult LoginOrRegister(User user)
         {
-            User User = new User();
-            User.Username = user1.Username;
-            User.Password = user1.Password;
+            var db = new UserDatabaseOperations(_configuration);
 
-            // Redirect to the home page or another appropriate page
-            return RedirectToAction("Index");
+            // Check if the user exists in the database
+            var userFromDb = db.GetUserByUsernameAndPassword(user.Username, user.Password);
+
+            if (userFromDb != null)
+            {
+                // Redirect to the home page or another appropriate page
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                // Check if the username already exists in the database
+                var existingUser = db.GetUserByUsername(user.Username);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("", "Username already exists");
+                    return View();
+                }
+
+                // Create a new user and save it to the database
+                var newUser = new User
+                {
+                    Username = user.Username,
+                    IsAdmin = false,
+                    Password = user.Password
+                };
+                db.CreateUser(user.Username, user.Password, newUser.IsAdmin);
+
+                // Get the newly created user from the database
+                var createdUser = db.GetUserByUsername(newUser.Username);
+
+                // Log in the user and redirect to the home page or another appropriate page
+                return RedirectToAction("Index");
+            }
+        }*/
+
+        [HttpPost]
+        public IActionResult Login(User user)
+        {
+            var db = new UserDatabaseOperations(_configuration);
+            var userFromDb = db.GetUserByUsernameAndPassword(user.Username, user.Password);
+            
+            if (userFromDb != null)
+            {
+                // Redirect to the home page or another appropriate page
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                // Show an error message to the user
+                ModelState.AddModelError("", "Invalid username or password");
+                return View();
+            }
         }
+        [HttpPost]
+        public IActionResult Register(User user)
+        {
+            var db = new UserDatabaseOperations(_configuration);
 
+            // Check if the username already exists in the database
+            var existingUser = db.GetUserByUsername(user.Username);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("", "Username already exists");
+                return View();
+            }
+
+            // Create a new user and save it to the database
+            var newUser = new User
+            {
+                Username = user.Username,
+                IsAdmin = false,
+                Password = user.Password            
+            };
+            db.CreateUser(user.Username, user.Password, newUser.IsAdmin);
+
+            // Get the newly created user from the database
+            var createdUser = db.GetUserByUsername(newUser.Username);
+
+            // Create a new instance of the User class and set its properties
+            var model = new User();
+            model.Username=createdUser.Username;
+            model.IsAdmin = false;
+            model.Password=createdUser.Password;
+
+            // Log in the user and redirect to the home page or another appropriate page
+            //HttpContext.Session.SetString("Username", createdUser.Username);
+            return RedirectToAction("Login", model);
+        }
         public IActionResult GM()
         {
             return View();
