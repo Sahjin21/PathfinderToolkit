@@ -15,8 +15,13 @@
     color: #395737;
     border: 2px solid antiquewhite;
     font-weight: bold;
+    padding: .5em 1em;
 }
 
 li {
     list-style-type: none;
+}
+
+ol {
+    padding:0;
 }
