@@ -6,13 +6,39 @@ class DiceBox {
     seed(diceData) {
 
         diceData.map(element => {
-            const newDice = new Dice(element, 0)
+            const newDice = new Dice(element)
             this.diceList.push(newDice)
         })
 
-        console.log(this.diceList)
         this.render()
         return this.diceList
+    }
+
+    addDice(diceType) {
+        this.diceList.map(dice => {
+            if (dice.name === +diceType) {
+                dice.count += 1
+            }
+        })
+
+    }
+
+    subtractDice(diceType) {
+        this.diceList.map(dice => {
+            if (dice.name === +diceType) {
+                dice.count -= 1
+            }
+        })
+
+    }
+
+    updateDiceText(diceType) {
+        let dicetext = document.querySelector(`.d${diceType}Text`)
+        this.diceList.map(dice => {
+            if (dice.name === +diceType) {
+                dicetext.value = dice.count
+            }
+        })
     }
 
     render() {
@@ -23,22 +49,6 @@ class DiceBox {
             const diceItem = dice.render(dice.name)
             roll_container.append(diceItem)
 
-            let addButton = document.querySelector(`.d${dice.name}Plus`)
-            let minusButton = document.querySelector(`.d${dice.name}Minus`)
-            let dicetext = document.querySelector(`.d${dice.name}Text`)
-            addButton.addEventListener("click", function () {
-                dice.count += 1
-                dicetext.value = dice.count
-
-            })
-
-            minusButton.addEventListener("click", function () {
-                if (dice.count > 0) {
-                    dice.count -= 1
-                    dicetext.value = dice.count
-                }
-
-            })
         })
 
         const rollButtonContainer = document.createElement("div")
