@@ -8,22 +8,13 @@ class Dice {
         const diceCont = document.createElement("div")
         diceCont.classList = "diceCont"
 
-        const addButton = document.createElement("input")
-        addButton.classList = `diceImg d${name}Plus`
-        addButton.type = "submit"
-        addButton.value = `+D${name}`
+        const html = `
+        <input type="submit" class="diceImg ${name}_Plus" value="+D${name}"></input>
+        <input type="number" class="dicetext d${name}Text" value= 0></input>
+        <input type="submit" class="diceImg ${name}_Minus" value="-D${name}"></input>
+        `
 
-        const txtBetweenButtons = document.createElement("input")
-        txtBetweenButtons.classList = `dicetext d${name}Text`
-        txtBetweenButtons.type = "number"
-        txtBetweenButtons.value = 0
-
-        const minusButton = document.createElement("input")
-        minusButton.classList = `diceImg d${name}Minus`
-        minusButton.type = "submit"
-        minusButton.value = `-D${name}`
-
-        diceCont.append(addButton, txtBetweenButtons, minusButton)
+        diceCont.innerHTML = html;
         return diceCont
     }
 }

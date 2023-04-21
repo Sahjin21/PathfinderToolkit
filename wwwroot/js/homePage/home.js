@@ -4,8 +4,8 @@ let announcements = ["this", "that", "evenmore of this and that", "Now working: 
 
 announcements.map(announcement => {
     let listItem = document.createElement("li")
-    listItem.classList.add("announcementItem")
-    listItem.textContent = announcement
+    listItem.classList = "announcementItem"
+    listItem.innerText = announcement
 
     announcementList.appendChild(listItem)
 })
