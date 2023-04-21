@@ -54,38 +54,19 @@ class DiceBox {
         const rollButtonContainer = document.createElement("div")
         rollButtonContainer.classList = "diceCont"
 
-        const rollButton = document.createElement("input")
-        rollButton.classList = "rollButton"
-        rollButton.type = "submit"
-        rollButton.value = "Roll"
+        let rollHtml = `
+            <div class="hitContainer">
+                <div class="hitModLabel">Hit Mod:</div>
+                <input class="hitMod" type="number">
+            </div>
+            <input class="rollButton" type="submit" value="Roll">
+            <div class="atkContainer">
+                <div class="atkModLabel">Atk Mod:</div>
+                <input class="atkMod" type="number">
+            </div>
+        </div>`
 
-        const hitContainer = document.createElement("div")
-        hitContainer.classList = "hitContainer"
-
-        const hitModLabel = document.createElement("div")
-        hitModLabel.classList = "hitModLabel"
-        hitModLabel.textContent = "Hit Mod:"
-
-        const hitMod = document.createElement("input")
-        hitMod.classList = "hitMod"
-        hitMod.type = "number"
-        hitMod.value = 0
-
-        const atkContainer = document.createElement("div")
-        atkContainer.classList = "atkContainer"
-
-        const atkModLabel = document.createElement("div")
-        atkModLabel.classList = "atkModLabel"
-        atkModLabel.textContent = "Atk Mod:"
-
-        const atkMod = document.createElement("input")
-        atkMod.classList = "atkMod"
-        atkMod.type = "number"
-        atkMod.value = 0
-
-        hitContainer.append(hitModLabel, hitMod)
-        atkContainer.append(atkModLabel, atkMod)
-        rollButtonContainer.append(hitContainer, rollButton, atkContainer)
+        rollButtonContainer.innerHTML = rollHtml
         roll_container.append(rollButtonContainer)
 
         const rollNameContainer = document.createElement("div")
