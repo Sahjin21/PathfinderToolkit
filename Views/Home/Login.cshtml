@@ -6,39 +6,20 @@
 
 
 <h1>Login</h1>
-
+<h1>Under Construction</h1>
 @if (Model == null || string.IsNullOrEmpty(Model.Username))
 {
     <form method="post">
+        <input type="hidden" name="action" value="" />
         <div>
             <label for="Username">Username:</label>
-            <input type="text" id="Username" name="Username" value="Username" />
+            <input type="text" id="Username" name="Username" value="" />
         </div>
         <div>
             <label for="Password">Password:</label>
             <input type="password" id="Password" name="Password" value="password" />
         </div>
-        <button type="submit" name="action" value="LoginOrRegister">Login</button>
-        <button type="submit" name="action" value="LoginOrRegister">Register</button>
-    </form>
-}
-else
-{
-    <p>You are already logged in as @Model.Username</p>
-}
-
-@if (Model != null )
-{
-    <form method="post">
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="@Model.Username" />
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" value="@Model.Password" />
-        </div>
-        <button type="submit" name="action" value="LoginOrRegister">Login</button>
-        <button type="submit" name="action" value="LoginOrRegister">Register</button>
+        <button type="submit" name="action" value="Login" onclick="document.getElementsByName('action')[0].value='Login'">Login</button>
+        <button type="submit" name="action" value="Register" onclick="document.getElementsByName('action')[0].value='Register'">Register</button>
     </form>
 }

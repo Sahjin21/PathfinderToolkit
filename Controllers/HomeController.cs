@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Extensions.Configuration;
 using static PathfinderToolkit.Models.Resources;
+using System;
 
 namespace PathfinderToolkit.Controllers
 {
@@ -34,99 +35,59 @@ namespace PathfinderToolkit.Controllers
             return View();
         }
 
-/*        [HttpPost]
-        public IActionResult LoginOrRegister(User user)
+        [HttpPost]
+        public IActionResult Login(User user, string action)
         {
-            var db = new UserDatabaseOperations(_configuration);
-
-            // Check if the user exists in the database
-            var userFromDb = db.GetUserByUsernameAndPassword(user.Username, user.Password);
-
-            if (userFromDb != null)
+            UserDatabaseOperations userDb = new UserDatabaseOperations(_configuration);
+            if (action == "Login")
             {
-                // Redirect to the home page or another appropriate page
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                // Check if the username already exists in the database
-                var existingUser = db.GetUserByUsername(user.Username);
-                if (existingUser != null)
+                User userFromDb = userDb.GetUserByUsernameAndPassword(user.Username, user.Password);
+
+                if (userFromDb != null)
                 {
-                    ModelState.AddModelError("", "Username already exists");
-                    return View();
+                    // User exists and credentials are valid
+                    // Store the user info in a model and pass it forward
+                    var model = new User();
+                    model.Id = userFromDb.Id;
+                    model.Username = userFromDb.Username;
+                    model.IsAdmin = userFromDb.IsAdmin;
+                    return View("Account", model);
                 }
-
-                // Create a new user and save it to the database
-                var newUser = new User
+                else
                 {
-                    Username = user.Username,
-                    IsAdmin = false,
-                    Password = user.Password
-                };
-                db.CreateUser(user.Username, user.Password, newUser.IsAdmin);
-
-                // Get the newly created user from the database
-                var createdUser = db.GetUserByUsername(newUser.Username);
-
-                // Log in the user and redirect to the home page or another appropriate page
-                return RedirectToAction("Index");
+                    // User does not exist or credentials are invalid
+                    // Show an error message
+                    ViewBag.Message = "Invalid username or password.";
+                    return View("Login");
+                }
             }
-        }*/
-
-        [HttpPost]
-        public IActionResult Login(User user)
-        {
-            var db = new UserDatabaseOperations(_configuration);
-            var userFromDb = db.GetUserByUsernameAndPassword(user.Username, user.Password);
-            
-            if (userFromDb != null)
+            else if (action == "Register")
             {
-                // Redirect to the home page or another appropriate page
-                return RedirectToAction("Index");
+                try
+                {
+                    //UserDatabaseOperations userDb = new UserDatabaseOperations(_configuration);
+                    
+                    userDb.CreateUser(user);
+                    var model = user;
+                    //model.Id = user.Id;
+                   // model.Username = user.Username;
+                   // model.IsAdmin = user.IsAdmin;
+                    return RedirectToAction("Account", model);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = e.Message;
+                    return View("Account");
+                }
             }
             else
             {
-                // Show an error message to the user
-                ModelState.AddModelError("", "Invalid username or password");
-                return View();
+                return View("Error");
+                // Invalid action
             }
         }
-        [HttpPost]
-        public IActionResult Register(User user)
-        {
-            var db = new UserDatabaseOperations(_configuration);
 
-            // Check if the username already exists in the database
-            var existingUser = db.GetUserByUsername(user.Username);
-            if (existingUser != null)
-            {
-                ModelState.AddModelError("", "Username already exists");
-                return View();
-            }
 
-            // Create a new user and save it to the database
-            var newUser = new User
-            {
-                Username = user.Username,
-                IsAdmin = false,
-                Password = user.Password            
-            };
-            db.CreateUser(user.Username, user.Password, newUser.IsAdmin);
-
-            // Get the newly created user from the database
-            var createdUser = db.GetUserByUsername(newUser.Username);
-
-            // Create a new instance of the User class and set its properties
-            var model = new User();
-            model.Username=createdUser.Username;
-            model.IsAdmin = false;
-            model.Password=createdUser.Password;
-
-            // Log in the user and redirect to the home page or another appropriate page
-            //HttpContext.Session.SetString("Username", createdUser.Username);
-            return RedirectToAction("Login", model);
-        }
         public IActionResult GM()
         {
             return View();

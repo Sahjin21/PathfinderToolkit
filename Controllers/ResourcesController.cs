@@ -27,6 +27,13 @@ namespace PathfinderToolkit.Controllers
 {
     public class ResourcesController : Controller
     {
+        private readonly ILogger<ResourcesController> _logger;
+        private readonly IConfiguration _configuration;
+        public ResourcesController(ILogger<ResourcesController> logger, IConfiguration configuration)
+        {
+            _logger = logger;
+            _configuration = configuration;
+        }
         public IActionResult Ability()
         {
             string jsonFilePath = "wwwroot/Data/Json PF/abilities.json";
@@ -277,6 +284,12 @@ namespace PathfinderToolkit.Controllers
         public IActionResult Login()
         {
             
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(User user)
+        {
             return View();
         }
         public IActionResult Index()
