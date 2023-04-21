@@ -15,7 +15,8 @@
     color: #395737;
     border: 2px solid antiquewhite;
     font-weight: bold;
-    padding: .5em 1em;
+    padding: .5em 20%;
+    margin:1em auto;
 }
 
 li {

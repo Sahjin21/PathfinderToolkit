@@ -8,6 +8,10 @@ html {
   }
 }
 
+html, body {
+    overflow: auto;
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -18,9 +22,12 @@ header {
 }
 
 .robnav {
-    display:felx;
+    display: flex;
     background-color: #283d27;
-    
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid antiquewhite;
+    padding: .5em;
 }
 
 .robnav-brand {
@@ -31,6 +38,22 @@ header {
     text-decoration: none;
     white-space: nowrap;
     color: antiquewhite;
+}
+
+.navLinks{
+    display: flex;
+    align-items: center;
+    margin:0;
+}
+
+    .navLinks > li {
+        list-style: none;
+    }
+
+.nav-right {
+    display: flex;
+    align-content: center;
+    
 }
 
 .robnav-link {
@@ -44,14 +67,12 @@ header {
 body {
     margin-bottom: 60px;
     background-color: #395737;
-    display:felx;
-    width:100%;
-    justify-items:left;
-    align-items:center;
-}
-
-main {
-    display: felx;
+    display: flex;
+    flex-direction:column;
+    width: 100%;
+    height: 100%;
+    justify-items: left;
+    align-items: center;
 }
 
 .ability-table {
@@ -81,4 +102,59 @@ main {
 .ability-name {
     padding:1em;
     width:max-content;
+}
+
+.mainContainer {
+    display: flex;
+    width:100%;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 80%;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.sideBar {
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-end;
+    padding:1em;
+    flex: 1 1 10%;
+    border-right: 1px solid antiquewhite;
+    height:55em;
+}
+
+.sideBar>img {
+    margin-bottom:auto;
+    height:40%;
+}
+
+.btn-home {
+    margin: 10px auto;
+    width: 250px;
+    letter-spacing: 2px;
+    border-radius: 8px;
+    font-family: 'Skranji', cursive;
+    color: antiquewhite;
+    font-size: 18px;
+    font-weight: 400;
+    text-shadow: 0 1px 3px #000;
+    text-align: center;
+    padding: 10px 0;
+    background: #283d27;
+    border-top: 4px ridge #787A4D;
+    border-left: 4px groove #787A4D;
+    border-right: 4px ridge #787A4D;
+    border-bottom: 4px groove #787A4D;
+    box-shadow: inset 0px 0px 5px 3px rgba(1,1,1,0.3);
+}
+
+.btn-home > a {
+    color: antiquewhite;
+    text-decoration: none;
 }
