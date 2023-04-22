@@ -1,5 +1,8 @@
 ﻿@model PathfinderToolkit.Models.Resources.Ability
 
+@*Inheritance: The '@model' directive indicates that the Razor view is inheriting from 
+the PathfinderToolkit.Models.Resources.Ability model class.*@
+
 <form method="post">
     <select id="abilityDropdown" name="abilityDropdown">
         <option value="">Select an ability</option>
@@ -11,9 +14,15 @@
     <button type="submit">Submit</button>
 </form>
 
+@*Encapsulation: The HTML and Razor code is organized into blocks, each with its own set of braces '{ }',
+which encapsulate the content and functionality of that block. 
+This helps to keep the code organized and maintainable.*@
+
+@*Abstraction: The @if statements are used to abstract the display of certain sections of 
+the view based on the presence or absence of data in the model, hiding details of the view from the user.*@
+
 @if (Model != null)
-{
-    
+{    
     <div class="ability-table">
         <div class="ability-container">
             <div class="ability-header">Name</div>
@@ -62,6 +71,10 @@
                 }
             </div>
         </div>
+        @*Polymorphism: The Html.Raw helper method is used to display various types of data such as strings, 
+        lists, and objects in the view, demonstrating the concept of polymorphism where a method 
+        can be used to handle different data types.*@
+
         <div class="ability-container">
             <div class="ability-header">Traits</div>
             @*This works for a list of strings*@
