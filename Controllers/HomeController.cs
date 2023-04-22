@@ -18,6 +18,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Core.DAG;
 using Microsoft.VisualBasic;
 using static Microsoft.Azure.Management.ResourceManager.Fluent.ResourceManager;
+using System.Security.Claims;
+//using Google.Apis.Drive.v3.Data;
 
 namespace PathfinderToolkit.Controllers
 {
@@ -54,7 +56,9 @@ namespace PathfinderToolkit.Controllers
             UserDatabaseOperations userDb = new UserDatabaseOperations(_configuration);
             if (action == "Login")
             {
-                User userFromDb = userDb.GetUserByUsernameAndPassword(user.Username, user.Password);
+#pragma warning disable CS8604 // Possible null reference argument.
+                User? userFromDb = userDb.GetUserByUsernameAndPassword(user.Username, user.Password);
+#pragma warning restore CS8604 // Possible null reference argument.
 
                 if (userFromDb != null)
                 {
@@ -64,6 +68,9 @@ namespace PathfinderToolkit.Controllers
                     model.Id = userFromDb.Id;
                     model.Username = userFromDb.Username;
                     model.IsAdmin = userFromDb.IsAdmin;
+                    model.FirstName = userFromDb.FirstName;
+                    model.LastName = userFromDb.LastName;
+                    model.Email = userFromDb.Email;
                     return View("Account", model);
                 }
                 else
@@ -97,6 +104,24 @@ namespace PathfinderToolkit.Controllers
                 // Invalid action
             }
         }
+
+        public IActionResult Account(int userId)
+        {
+            // Get the user information from the database
+            UserDatabaseOperations userDb = new UserDatabaseOperations(_configuration);
+            User user = userDb.GetUserById(userId);
+            if (user == null)
+            {
+                // User not found, return an error view or redirect to an error page
+                return View("Error");
+            }
+            else
+            {
+                // Pass the user object to the view
+                return View("Account", user);
+            }
+        }
+
         /*Abstraction: Abstraction is the process of hiding implementation details while showing only 
           the necessary information to the user.In your code, you are abstracting the details of 
           the database connection and SQL queries behind the SqlConnection and SqlCommand classes. 
@@ -114,6 +139,7 @@ namespace PathfinderToolkit.Controllers
                 var user = new User
                 {
                     Id = model.Id,
+                    Password = model.Password,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email

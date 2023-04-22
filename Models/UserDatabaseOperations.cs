@@ -16,17 +16,19 @@ namespace PathfinderToolkit.Models
     {
         private readonly IConfiguration _configuration;
         private string connString;
-        string connectionString = Environment.GetEnvironmentVariable("CONNECTIONSTRING");
+        string? connectionString = Environment.GetEnvironmentVariable("CONNECTIONSTRING");
         private readonly string _connString;
 
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public UserDatabaseOperations(IConfiguration configuration)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _configuration = configuration;
             connString = _configuration.GetConnectionString("CONNECTIONSTRING");
         }
 
-        public User GetUserByUsernameAndPassword(string username, string password)
+        public User? GetUserByUsernameAndPassword(string username, string password)
         {
             string connString = _configuration.GetConnectionString("CONNECTIONSTRING");
                 using (var conn = new SqlConnection(connString))
@@ -42,12 +44,12 @@ namespace PathfinderToolkit.Models
                     {
                         User userFromDb = new User();
                         userFromDb.Id = Convert.ToInt32(reader["Id"]);
-                        //System.Diagnostics.Debug.WriteLine("Selected User Id: " + userFromDb.Id);
                         userFromDb.Username = Convert.ToString(reader["user"]);
-                        //System.Diagnostics.Debug.WriteLine("Selected User name: " + userFromDb.Username);
                         userFromDb.Password = Convert.ToString(reader["password"]);
-                        //System.Diagnostics.Debug.WriteLine("Selected User name: " + userFromDb.Password);
                         userFromDb.IsAdmin = Convert.ToBoolean(reader["admin"]);
+                        userFromDb.FirstName = Convert.ToString(reader["first_name"]);
+                        userFromDb.LastName = Convert.ToString(reader["last_name"]);
+                        userFromDb.Email = Convert.ToString(reader["email"]);
                         return userFromDb;
                     }
                     else
@@ -91,12 +93,10 @@ namespace PathfinderToolkit.Models
                 using (var cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@Id", user.Id);
-                    cmd.Parameters.AddWithValue("@Username", user.Username);
                     cmd.Parameters.AddWithValue("@Password", user.Password);
                     cmd.Parameters.AddWithValue("@FirstName", string.IsNullOrEmpty(user.FirstName) ? "" : user.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", string.IsNullOrEmpty(user.LastName) ? "" : user.LastName);
                     cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(user.Email) ? "" : user.Email);
-                    cmd.Parameters.AddWithValue("@IsAdmin", user.IsAdmin);
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -105,7 +105,7 @@ namespace PathfinderToolkit.Models
 
         // Needs to be fixed
         // Get a user by ID
-        public User GetUserById(int id)
+        public User? GetUserById(int id)
         {
             using (var conn = new SqlConnection(connString))
             {
