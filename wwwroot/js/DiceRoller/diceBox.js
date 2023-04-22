@@ -63,8 +63,7 @@ class DiceBox {
             <div class="atkContainer">
                 <div class="atkModLabel">Atk Mod:</div>
                 <input class="atkMod" type="number">
-            </div>
-        </div>`
+            </div>`
 
         rollButtonContainer.innerHTML = rollHtml
         roll_container.append(rollButtonContainer)
